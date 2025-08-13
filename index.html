@@ -3,564 +3,489 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Premium Hile Sitesi</title>
+<title>Premium Hile Satış Sitesi</title>
 <style>
-  /* Reset */
+  /* RESET */
   * {
     margin: 0; padding: 0; box-sizing: border-box;
-  }
-  body,html {
-    height: 100%;
-    background: #000;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #cbbaff;
+    color: #d0baff;
+  }
+  body {
+    background: #000;
     overflow-x: hidden;
-    user-select: none;
-    position: relative;
   }
-  /* Kar efekti */
+  /* KAR EFEKTİ */
   body::before {
-    content: '';
-    position: fixed; top:0; left:0; right:0; bottom:0;
-    pointer-events:none;
-    background-image: url('https://cdn.pixabay.com/photo/2017/11/10/05/05/snow-2936317_960_720.png');
-    background-repeat: repeat;
-    background-size: 50px 50px;
-    opacity: 0.12;
-    animation: snowFall 25s linear infinite;
-    z-index: 0;
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    pointer-events: none;
+    background: transparent url('https://i.ibb.co/7Xw7P54/snowflake.png') repeat;
+    animation: snow 15s linear infinite;
+    z-index: 1;
+    opacity: 0.15;
   }
-  @keyframes snowFall {
+  @keyframes snow {
     0% { background-position: 0 0; }
     100% { background-position: 0 1000px; }
   }
-
-  /* Mor çevre LED animasyonu */
+  /* LED ÇERÇEVE */
   .led-frame {
     position: fixed;
-    top: 12px; bottom: 12px; left: 12px; right: 12px;
-    border-radius: 30px;
-    padding: 5px;
-    background: linear-gradient(270deg, #7e3bff, #d496ff, #7e3bff);
-    background-size: 600% 600%;
-    animation: ledAnim 8s ease infinite;
+    top: 15px; left: 15px; right: 15px; bottom: 15px;
+    border: 4px solid #7d4fff;
+    box-shadow: 0 0 20px #9b85ff, 0 0 40px #6e47f9 inset;
+    border-radius: 12px;
     pointer-events: none;
-    z-index: 9999;
+    animation: ledPulse 3s ease-in-out infinite;
+    z-index: 10;
   }
-  .led-inner {
-    background: #000;
-    border-radius: 25px;
-    height: 100%;
+  @keyframes ledPulse {
+    0%, 100% {
+      box-shadow: 0 0 15px #9b85ff, 0 0 35px #6e47f9 inset;
+      border-color: #7d4fff;
+    }
+    50% {
+      box-shadow: 0 0 30px #c19aff, 0 0 70px #8e66ff inset;
+      border-color: #a178ff;
+    }
   }
-  @keyframes ledAnim {
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
-  }
-
-  /* Üst menü */
+  /* HEADER */
   header {
     position: fixed;
     top: 0; left: 0; right: 0;
-    background: rgba(40,0,80,0.95);
-    backdrop-filter: blur(5px);
-    padding: 12px 25px;
+    background: rgba(30, 0, 60, 0.85);
     display: flex;
-    gap: 18px;
-    justify-content: center;
-    z-index: 101;
-    border-bottom: 1px solid #a25affcc;
+    gap: 20px;
+    padding: 15px 25px;
+    z-index: 100;
+    box-shadow: 0 0 20px #7d4fff;
+    border-bottom: 2px solid #7d4fff;
   }
   header button {
     background: transparent;
     border: none;
-    color: #cbbaff;
-    font-weight: 700;
-    font-size: 17px;
+    color: #d0baff;
+    font-weight: 600;
+    font-size: 16px;
     cursor: pointer;
-    padding: 9px 22px;
-    border-radius: 14px;
-    transition: all 0.25s ease;
+    padding: 10px 18px;
+    border-radius: 20px;
+    transition: background 0.3s ease, color 0.3s ease;
   }
-  header button:hover, header button.active {
-    background: #a25aff;
-    color: white;
-    box-shadow: 0 0 18px #d9aaffcc;
-    transform: scale(1.1);
+  header button.active,
+  header button:hover {
+    background: #7d4fff;
+    color: #fff;
+    box-shadow: 0 0 15px #9b85ff;
   }
-
-  /* Main içerik */
+  /* MAIN */
   main {
-    margin-top: 68px;
-    padding: 30px 24px;
-    max-width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-    color: #d6baff;
+    margin-top: 80px;
+    padding: 20px 40px;
+    min-height: calc(100vh - 80px);
     position: relative;
-    z-index: 10;
+    z-index: 5;
   }
   main h1 {
-    font-size: 2.8rem;
-    margin-bottom: 20px;
-    text-align: center;
-    color: #d9baff;
-    text-shadow: 0 0 14px #a25affcc;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #bfa8ff;
+    text-shadow: 0 0 10px #7d4fff;
   }
-
-  /* Kategori içeriği alanı */
+  /* KATEGORİ İÇERİKLERİ */
   #categoryContent {
-    background: rgba(50,0,130,0.9);
-    padding: 28px 28px 35px 28px;
-    border-radius: 20px;
-    box-shadow: 0 0 30px #a85affcc;
-    min-height: 340px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.5s ease;
-  }
-  #categoryContent.active {
-    opacity: 1;
-    pointer-events: auto;
+    background: rgba(30, 0, 60, 0.75);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 25px #8f6aff;
+    min-height: 300px;
+    color: #d0baff;
+    font-weight: 600;
   }
   #categoryContent h2 {
-    font-size: 2.2rem;
-    margin-bottom: 14px;
-    color: #f0e6ff;
-    text-shadow: 0 0 8px #b084ff;
+    margin-bottom: 15px;
   }
-  #categoryContent p {
-    font-size: 1.1rem;
-    line-height: 1.55;
-  }
-
-  /* Satın alma ürün kartları */
+  /* FİYAT KARTLARI */
   .price-list {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    margin-top: 30px;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 20px;
   }
   .price-card {
-    background: #7a36ffcc;
-    border-radius: 18px;
-    padding: 22px 20px;
-    width: 160px;
-    box-shadow: 0 0 26px #b97affcc;
-    color: white;
-    font-weight: 700;
+    background: rgba(60, 0, 120, 0.8);
+    border-radius: 15px;
+    padding: 18px 25px;
     cursor: pointer;
-    user-select: none;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-align: center;
+    transition: background 0.3s ease, transform 0.25s ease;
+    box-shadow: 0 0 12px #a285ffcc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
   }
   .price-card:hover {
-    background: #bb89ff;
-    box-shadow: 0 0 38px #d9aaffcc;
-    transform: scale(1.12);
+    background: #7d4fff;
+    box-shadow: 0 0 25px #bfa8ff;
+    transform: scale(1.05);
+    color: white;
   }
-  .price-card span {
-    display: block;
-    margin-top: 9px;
-    font-size: 1.2rem;
+  /* ALT BİLGİ */
+  footer {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(25, 0, 55, 0.85);
+    padding: 12px 20px;
+    text-align: right;
+    font-size: 12px;
+    color: #bfa8ff;
+    box-shadow: 0 -2px 10px #6e47f9;
+    z-index: 99;
   }
-
-  /* Discord link */
-  #discordLink {
-    margin-top: 28px;
-    display: block;
-    text-align: center;
-    font-weight: 700;
-    font-size: 18px;
-    color: #9e68ff;
-    cursor: pointer;
+  footer a {
+    color: #a288ff;
+    text-decoration: none;
+  }
+  footer a:hover {
     text-decoration: underline;
-    transition: all 0.3s ease;
   }
-  #discordLink:hover {
-    color: #d6baff;
-    text-shadow: 0 0 15px #b086ff;
-  }
-
-  /* Giriş yap butonu */
+  /* BUTONLAR */
   #loginBtn {
     position: fixed;
-    right: 30px;
-    bottom: 30px;
-    background: linear-gradient(45deg, #9a5cff, #5a1aff);
+    top: 20px; right: 20px;
+    background: #7d4fff;
     border: none;
-    color: white;
+    padding: 12px 20px;
     font-weight: 700;
-    padding: 20px 34px;
-    border-radius: 50px;
-    font-size: 18px;
+    border-radius: 20px;
+    color: white;
     cursor: pointer;
-    box-shadow: 0 0 22px #a855f7cc;
-    transition: background 0.3s ease, transform 0.3s ease;
-    z-index: 105;
+    z-index: 110;
+    box-shadow: 0 0 25px #bfa8ff;
+    transition: background 0.3s ease;
   }
   #loginBtn:hover {
-    background: linear-gradient(45deg, #be7aff, #7f35ff);
-    transform: scale(1.1);
+    background: #9c6fff;
   }
-
-  /* Kullanıcı alanı */
   #userArea {
     position: fixed;
-    top: 15px;
-    right: 30px;
-    background: rgba(122, 54, 255, 0.9);
-    padding: 14px 26px;
-    border-radius: 28px;
-    color: white;
-    font-weight: 700;
-    font-size: 18px;
+    top: 20px;
+    right: 150px;
+    background: rgba(60, 0, 120, 0.85);
+    border-radius: 18px;
+    padding: 10px 18px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #c9baff;
+    box-shadow: 0 0 20px #8f6aff;
     user-select: none;
-    display: none;
     z-index: 110;
-    box-shadow: 0 0 20px #9a5cffcc;
+    min-width: 180px;
+    display: none;
+    justify-content: space-between;
+    gap: 15px;
   }
   #userName {
-    margin-right: 15px;
+    font-weight: 700;
   }
-  #userBalance {
-    font-weight: 900;
-    font-size: 19px;
-    color: #ffd646;
-  }
-
-  /* Modal arka plan */
+  /* MODAL GENEL */
   .modal {
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.95);
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.9);
     display: none;
     justify-content: center;
     align-items: center;
-    z-index: 300;
+    z-index: 200;
   }
   .modal.active {
     display: flex;
   }
-
-  /* Modal içerik */
   .modal-content {
-    background: #3c0071;
-    padding: 38px 45px;
-    border-radius: 28px;
-    box-shadow: 0 0 35px #a655ffcc;
-    width: 400px;
-    color: #d9baff;
+    background: #1a0050;
+    border-radius: 15px;
+    padding: 30px 40px;
+    width: 360px;
+    max-width: 90vw;
+    box-shadow: 0 0 25px #9b85ff;
+    color: #d0baff;
     position: relative;
-    animation: fadeInScale 0.35s ease forwards;
+    font-weight: 600;
   }
-  @keyframes fadeInScale {
-    from {opacity: 0; transform: scale(0.85);}
-    to {opacity: 1; transform: scale(1);}
-  }
-
-  /* Modal başlık */
   .modal-content h2 {
-    margin-bottom: 28px;
-    color: white;
-    font-size: 2.3rem;
+    margin-bottom: 20px;
     text-align: center;
-    text-shadow: 0 0 13px #d085ff;
   }
-
-  /* Modal inputlar */
   .modal-content label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     font-weight: 600;
-    font-size: 14px;
-    color: #b8aaff;
   }
   .modal-content input {
     width: 100%;
-    padding: 14px 16px;
-    margin-bottom: 24px;
-    border-radius: 14px;
+    padding: 8px 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
     border: none;
-    background: #3a0099;
-    color: #e0ccff;
-    font-weight: 600;
-    font-size: 17px;
-    box-shadow: inset 0 0 10px #7a33ff;
-    transition: box-shadow 0.3s ease;
-  }
-  .modal-content input:focus {
     outline: none;
-    box-shadow: 0 0 22px #be7aff;
-    background: #4d00cc;
+    font-size: 14px;
+    font-weight: 600;
+    background: #4c2acb;
+    color: #e5d7ff;
+    box-shadow: inset 0 0 8px #6e47f9;
   }
-
-  /* Modal butonlar */
   .modal-content button {
     width: 100%;
-    background: linear-gradient(45deg, #9a5cff, #5a1aff);
+    padding: 12px;
+    background: #7d4fff;
     border: none;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
     color: white;
-    font-weight: 700;
-    font-size: 1.15rem;
-    padding: 16px 0;
-    border-radius: 50px;
-    cursor: pointer;
-    box-shadow: 0 0 22px #a855f7cc;
-    transition: background 0.3s ease, transform 0.25s ease;
-  }
-  .modal-content button:hover {
-    background: linear-gradient(45deg, #be7aff, #7f35ff);
-    transform: scale(1.1);
-  }
-
-  /* Modal kapatma çarpısı */
-  .close-btn {
-    position: absolute;
-    top: 14px; right: 16px;
-    font-size: 28px;
-    color: #b9aaff;
-    cursor: pointer;
-    user-select: none;
-    transition: color 0.25s ease;
-  }
-  .close-btn:hover {
-    color: white;
-  }
-
-  /* Uyarı mesajları */
-  .alert {
-    background: #a23a3a;
-    padding: 14px 22px;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    font-weight: 700;
-    color: #ffd6d6;
-    text-align: center;
-    box-shadow: 0 0 18px #b05050;
-    user-select: none;
-  }
-
-  /* Gizlilik menüsü */
-  #privacyMenu {
-    position: fixed;
-    bottom: 15px;
-    left: 15px;
-    color: #b5aaffcc;
-    cursor: pointer;
-    font-weight: 700;
-    user-select: none;
-    font-size: 14px;
-    padding: 10px 18px;
-    border-radius: 20px;
-    background: rgba(70,0,130,0.8);
-    box-shadow: 0 0 12px #9b85ffcc;
-    z-index: 110;
+    box-shadow: 0 0 15px #bfa8ff;
     transition: background 0.3s ease;
   }
-  #privacyMenu:hover {
-    background: rgba(150,80,255,0.9);
-    color: white;
+  .modal-content button:hover {
+    background: #9c6fff;
   }
-  #privacyContent {
-    position: fixed;
-    bottom: 55px;
-    left: 15px;
-    width: 300px;
-    max-height: 230px;
-    overflow-y: auto;
-    background: rgba(90,20,140,0.95);
+  .modal-close {
+    position: absolute;
+    top: 15px; right: 20px;
+    font-size: 22px;
+    font-weight: 700;
     color: #d0baff;
-    padding: 18px 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+  /* SATIN ALIM SEÇENEKLERİ */
+  #purchaseOptions {
+    margin-top: 20px;
+  }
+  #purchaseOptions h3 {
+    margin-bottom: 15px;
+  }
+  .purchase-option {
+    background: #4b1ad4;
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    box-shadow: 0 0 15px #7d4fff;
+    transition: background 0.3s ease;
+  }
+  .purchase-option:hover {
+    background: #7d4fff;
+    color: #fff;
+  }
+  /* BAKİYE GÖSTER */
+  #balanceDisplay {
+    position: fixed;
+    bottom: 80px; right: 20px;
+    background: rgba(60,0,120,0.85);
+    color: #d0baff;
+    padding: 12px 20px;
     border-radius: 20px;
-    box-shadow: 0 0 25px #c9afffcc;
-    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 0 20px #7d4fff;
+    z-index: 120;
+    user-select: none;
     display: none;
-    z-index: 111;
   }
-  #privacyContent.active {
-    display: block;
+  /* UYARI KUTUSU */
+  #alertBox {
+    position: fixed;
+    bottom: 30px; right: 30px;
+    background: #9c2a2a;
+    color: #ffd7d7;
+    padding: 14px 22px;
+    border-radius: 15px;
+    box-shadow: 0 0 30px #ff6f6f;
+    font-weight: 700;
+    z-index: 300;
+    display: none;
+    animation: alertShow 0.4s ease forwards;
   }
-  #privacyContent::-webkit-scrollbar {
-    width: 8px;
+  @keyframes alertShow {
+    0% {opacity: 0; transform: translateY(30px);}
+    100% {opacity: 1; transform: translateY(0);}
   }
-  #privacyContent::-webkit-scrollbar-thumb {
-    background: #a774ffbb;
-    border-radius: 20px;
-  }
-
 </style>
 </head>
 <body>
 
-<div class="led-frame"><div class="led-inner"></div></div>
+<div class="led-frame"></div>
 
 <header>
-  <button class="category-btn active" data-cat="fivem">Fivem</button>
-  <button class="category-btn" data-cat="valorant">Valorant</button>
-  <button class="category-btn" data-cat="cs2">CS2</button>
-  <button class="category-btn" data-cat="aimbot">AimBOT</button>
-  <button class="category-btn" data-cat="esp">ESP</button>
-  <button class="category-btn" data-cat="discord">Discord</button>
+  <button class="category-btn active" data-category="fivem">FiveM</button>
+  <button class="category-btn" data-category="valorant">Valorant</button>
+  <button class="category-btn" data-category="cs2">CS2</button>
+  <button class="category-btn" data-category="aimbot">AimBOT</button>
+  <button class="category-btn" data-category="esp">ESP</button>
+  <button class="category-btn" data-category="vac">100/100 VAC Korumalı</button>
+  <button class="category-btn" data-category="discord">Discord</button>
 </header>
 
 <main>
-  <h1>Premium Hile Kategorileri</h1>
-
-  <div id="categoryContent" class="active">
-    <!-- Kategori içerikleri buraya JS ile gelir -->
+  <h1 id="categoryTitle">FiveM Ürünleri</h1>
+  <div id="categoryContent">
+    <!-- İçerik JS ile gelecek -->
   </div>
 </main>
 
-<button id="loginBtn">GİRİŞ YAP</button>
+<button id="loginBtn">Giriş Yap</button>
 
 <div id="userArea">
-  <span id="userName"></span>
-  <span>Bakiye: <span id="userBalance">0₺</span></span>
+  Hoşgeldin, <span id="userName"></span> | <button id="logoutBtn">Çıkış Yap</button>
 </div>
 
-<div id="privacyMenu">Gizlilik Politikası</div>
-<div id="privacyContent">
-  <h3>Gizlilik Politikası</h3>
-  <p>Bu site, kullanıcı bilgilerinizin gizliliğine önem verir. Kişisel verileriniz üçüncü şahıslarla paylaşılmaz ve güvenli şekilde saklanır.</p>
-  <p>Kullanıcı işlemleri şifreli bağlantılar üzerinden yapılır ve hiçbir ödeme bilgisi site üzerinde saklanmaz.</p>
-  <p>Siteyi kullanarak bu politikayı kabul etmiş sayılırsınız.</p>
-</div>
-
-<!-- Giriş Modal -->
+<!-- MODAL GİRİŞ -->
 <div id="loginModal" class="modal">
   <div class="modal-content">
-    <span class="close-btn" id="closeLogin">&times;</span>
-    <h2>Giriş Yap / Kayıt Ol</h2>
-    <div id="loginAlert" class="alert" style="display:none;"></div>
-    <label for="loginName">İsim</label>
-    <input type="text" id="loginName" placeholder="İsminiz" autocomplete="off" />
+    <div class="modal-close" id="closeLoginModal">&times;</div>
+    <h2>Giriş Yap</h2>
     <label for="loginEmail">E-posta</label>
-    <input type="email" id="loginEmail" placeholder="E-posta adresiniz" autocomplete="off" />
-    <label for="loginPass">Şifre</label>
-    <input type="password" id="loginPass" placeholder="Şifreniz" autocomplete="off" />
+    <input type="email" id="loginEmail" placeholder="E-posta adresinizi girin" />
+    <label for="loginPassword">Şifre</label>
+    <input type="password" id="loginPassword" placeholder="Şifrenizi girin" />
     <button id="loginSubmit">Giriş Yap</button>
   </div>
 </div>
 
-<!-- Kart Bilgisi Modal -->
-<div id="cardModal" class="modal">
+<!-- MODAL SATIN ALIM -->
+<div id="purchaseModal" class="modal">
   <div class="modal-content">
-    <span class="close-btn" id="closeCard">&times;</span>
-    <h2>Ödeme İçin Kart Bilgileri</h2>
-    <div id="cardAlert" class="alert" style="display:none;"></div>
-    <label for="cardNumber">Kart Numarası</label>
-    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="off" />
-    <label for="cardExpiry">Son Kullanma Tarihi (AA/YY)</label>
-    <input type="text" id="cardExpiry" placeholder="08/25" maxlength="5" autocomplete="off" />
-    <label for="cardCVC">CVC</label>
-    <input type="text" id="cardCVC" placeholder="123" maxlength="4" autocomplete="off" />
-    <button id="cardSubmit">Satın Al</button>
+    <div class="modal-close" id="closePurchaseModal">&times;</div>
+    <h2>Satın Alım Seçenekleri</h2>
+    <div id="purchaseOptions">
+      <!-- Satın alma seçenekleri JS ile gelecek -->
+    </div>
+    <button id="purchaseConfirmBtn">Satın Al</button>
   </div>
 </div>
 
-<!-- Bakiye Yükleme Modal -->
-<div id="balanceModal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn" id="closeBalance">&times;</span>
-    <h2>Bakiye Yükle</h2>
-    <div id="balanceAlert" class="alert" style="display:none;"></div>
-    <label for="balanceAmount">Yüklenecek Tutar (₺)</label>
-    <input type="number" id="balanceAmount" min="1" max="1000" placeholder="Örn: 100" autocomplete="off" />
-    <button id="balanceSubmit">Yükle</button>
-  </div>
-</div>
+<div id="balanceDisplay">Bakiyeniz: <span id="balanceAmount">0</span> TL</div>
+<div id="alertBox"></div>
+
+<footer>
+  <a href="#" id="privacyLink">Gizlilik Politikası</a> | <a href="https://discord.gg/hTFjRtwg" target="_blank" id="discordLink">Discord Sunucumuz</a>
+</footer>
 
 <script>
-  // Kullanıcı verileri
-  let user = null;
-  let userBalance = 0;
-
-  // Ürün verileri kategoriye göre
-  const products = {
-    fivem: [
-      { id: 'f1', name: 'Fivem Premium Hile Aylık', price: 150 },
-      { id: 'f2', name: 'Fivem Hile Yıllık', price: 1200 }
-    ],
-    valorant: [
-      { id: 'v1', name: 'Valorant AimBOT', price: 200 },
-      { id: 'v2', name: 'Valorant ESP', price: 100 }
-    ],
-    cs2: [
-      { id: 'c1', name: 'CS2 Aimbot', price: 250 },
-      { id: 'c2', name: 'CS2 Wallhack', price: 140 }
-    ],
-    aimbot: [
-      { id: 'a1', name: 'AimBOT Full Paket', price: 500 }
-    ],
-    esp: [
-      { id: 'e1', name: 'ESP Görünüm Paket', price: 180 }
-    ]
+  // VERİLER
+  const categories = {
+    fivem: {
+      title: "FiveM Ürünleri",
+      items: [
+        {name: "FiveM AimBOT", price: 75, desc: "Günlük"},
+        {name: "FiveM AimBOT", price: 325, desc: "Haftalık"},
+        {name: "FiveM AimBOT", price: 850, desc: "Aylık"},
+        {name: "FiveM AimBOT", price: 1250, desc: "Sınırsız"}
+      ]
+    },
+    valorant: {
+      title: "Valorant Ürünleri",
+      items: [
+        {name: "Valorant ESP", price: 70, desc: "Günlük"},
+        {name: "Valorant ESP", price: 300, desc: "Haftalık"},
+        {name: "Valorant ESP", price: 800, desc: "Aylık"},
+        {name: "Valorant ESP", price: 1200, desc: "Sınırsız"}
+      ]
+    },
+    cs2: {
+      title: "CS2 Ürünleri",
+      items: [
+        {name: "CS2 AimBOT", price: 65, desc: "Günlük"},
+        {name: "CS2 AimBOT", price: 280, desc: "Haftalık"},
+        {name: "CS2 AimBOT", price: 750, desc: "Aylık"},
+        {name: "CS2 AimBOT", price: 1100, desc: "Sınırsız"}
+      ]
+    },
+    aimbot: {
+      title: "AimBOT Ürünleri",
+      items: [
+        {name: "AimBOT Full Paket", price: 200, desc: "Sınırsız"}
+      ]
+    },
+    esp: {
+      title: "ESP Ürünleri",
+      items: [
+        {name: "ESP Full Paket", price: 180, desc: "Sınırsız"}
+      ]
+    },
+    vac: {
+      title: "100/100 VAC Koruma",
+      items: [
+        {name: "VAC Koruma Paketi", price: 100, desc: "Sınırsız"}
+      ]
+    },
+    discord: {
+      title: "Discord Sunucumuz",
+      items: [
+        {name: "Sunucuya Katıl", link: "https://discord.gg/hTFjRtwg"}
+      ]
+    }
   };
 
-  // Elementler
-  const categoryBtns = document.querySelectorAll('.category-btn');
-  const categoryContent = document.getElementById('categoryContent');
-  const loginBtn = document.getElementById('loginBtn');
-  const userArea = document.getElementById('userArea');
-  const userNameSpan = document.getElementById('userName');
-  const userBalanceSpan = document.getElementById('userBalance');
+  // Kullanıcı durumu
+  let currentUser = null;
+  let userBalance = 0;
+  let selectedCategory = "fivem";
+  let selectedProduct = null;
 
-  // Modallar
-  const loginModal = document.getElementById('loginModal');
-  const closeLogin = document.getElementById('closeLogin');
-  const loginSubmit = document.getElementById('loginSubmit');
-  const loginAlert = document.getElementById('loginAlert');
-  const loginNameInput = document.getElementById('loginName');
-  const loginEmailInput = document.getElementById('loginEmail');
-  const loginPassInput = document.getElementById('loginPass');
+  // DOM
+  const categoryBtns = document.querySelectorAll(".category-btn");
+  const categoryTitle = document.getElementById("categoryTitle");
+  const categoryContent = document.getElementById("categoryContent");
+  const loginBtn = document.getElementById("loginBtn");
+  const userArea = document.getElementById("userArea");
+  const userNameSpan = document.getElementById("userName");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const loginModal = document.getElementById("loginModal");
+  const closeLoginModal = document.getElementById("closeLoginModal");
+  const loginSubmit = document.getElementById("loginSubmit");
+  const loginEmailInput = document.getElementById("loginEmail");
+  const loginPasswordInput = document.getElementById("loginPassword");
+  const purchaseModal = document.getElementById("purchaseModal");
+  const closePurchaseModal = document.getElementById("closePurchaseModal");
+  const purchaseOptions = document.getElementById("purchaseOptions");
+  const purchaseConfirmBtn = document.getElementById("purchaseConfirmBtn");
+  const balanceDisplay = document.getElementById("balanceDisplay");
+  const balanceAmount = document.getElementById("balanceAmount");
+  const alertBox = document.getElementById("alertBox");
 
-  const cardModal = document.getElementById('cardModal');
-  const closeCard = document.getElementById('closeCard');
-  const cardSubmit = document.getElementById('cardSubmit');
-  const cardAlert = document.getElementById('cardAlert');
-  const cardNumberInput = document.getElementById('cardNumber');
-  const cardExpiryInput = document.getElementById('cardExpiry');
-  const cardCVCInput = document.getElementById('cardCVC');
-
-  const balanceModal = document.getElementById('balanceModal');
-  const closeBalance = document.getElementById('closeBalance');
-  const balanceSubmit = document.getElementById('balanceSubmit');
-  const balanceAlert = document.getElementById('balanceAlert');
-  const balanceAmountInput = document.getElementById('balanceAmount');
-
-  const privacyMenu = document.getElementById('privacyMenu');
-  const privacyContent = document.getElementById('privacyContent');
-
-  // Başlangıçta içerik doldur
-  function showCategory(cat) {
-    if(cat === 'discord'){
-      // Discord link aç
-      window.open('https://discord.gg/9McrCSjv6c', '_blank');
+  // YARDIMCI FONKSİYONLAR
+  function showAlert(msg) {
+    alertBox.textContent = msg;
+    alertBox.style.display = "block";
+    setTimeout(() => { alertBox.style.display = "none"; }, 3500);
+  }
+  function updateBalance() {
+    balanceAmount.textContent = userBalance + " TL";
+    balanceDisplay.style.display = currentUser ? "block" : "none";
+  }
+  function openModal(modal) {
+    modal.classList.add("active");
+  }
+  function closeModal(modal) {
+    modal.classList.remove("active");
+  }
+  function renderCategory(catKey) {
+    selectedCategory = catKey;
+    categoryTitle.textContent = categories[catKey].title;
+    categoryContent.innerHTML = "";
+    if(catKey === "discord") {
+      const link = document.createElement("a");
+      link.href = categories[catKey].items[0].link;
+      link.target = "_blank";
+      link.textContent = "Discord Sunucumuza Katılmak İçin Tıklayın";
+      link.style.color = "#a288ff";
+      link.style.fontWeight = "700";
+      categoryContent.appendChild(link);
       return;
     }
-    // Kategorileri seçme stilini ayarla
-    categoryBtns.forEach(btn=>{
-      btn.classList.toggle('active', btn.dataset.cat === cat);
-    });
-
-    // Ürünleri göster
-    let html = `<h2>${cat.toUpperCase()} Hileleri</h2>`;
-    if(products[cat] && products[cat].length){
-      html += `<p>Satın almak istediğiniz paketi seçin:</p><div class="price-list">`;
-      products[cat].forEach(p=>{
-        html += `<div class="price-card" data-id="${p.id}" data-name="${p.name}" data-price="${p.price}">
-          ${p.name} <span>${p.price}₺</span>
-        </div>`;
-      });
-      html += `</div>`;
-    } else {
-      html += `<p>Bu kategori için ürün bulunmamaktadır.</p>`;
-    }
-    categoryContent.innerHTML = html;
-    categoryContent.classList.add('active');
-
-    // Satın alma kartlarına tıkla dinleyici
-    document.querySelectorAll('.price-card').forEach(card=>{
-      card.onclick = () =>
+    const grid = document.createElement("div");
+    grid.class
