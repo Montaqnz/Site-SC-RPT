@@ -217,3 +217,143 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ana Sayfa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Orbitron', sans-serif;
+      background: url('qqq.PNG') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 50px;
+    }
+
+    .welcome {
+      max-width: 50%;
+    }
+
+    .welcome h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .welcome p {
+      font-size: 1.2rem;
+      color: #ccc;
+    }
+
+    .form-box {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 30px;
+      border-radius: 10px;
+      width: 300px;
+      backdrop-filter: blur(10px);
+    }
+
+    .form-box h2 {
+      margin-bottom: 20px;
+      color: #0ff;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    .form-box input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 5px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+    }
+
+    .form-box input::placeholder {
+      color: #ccc;
+    }
+
+    .form-box button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background: #0ff;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .form-box button:hover {
+      background: #00c8c8;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .welcome {
+        max-width: 100%;
+        margin-bottom: 30px;
+      }
+
+      .form-box {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="overlay"></div>
+
+  <div class="container">
+    <div class="welcome">
+      <h1>🔍 Ana Sayfa</h1>
+      <p>Aradığın bilgiyi sorgulamak için formu kullan.</p>
+    </div>
+
+    <div class="form-box">
+      <h2>Sorgu Paneli</h2>
+      <input type="text" placeholder="Ad" />
+      <input type="text" placeholder="Soyad" />
+      <input type="text" placeholder="Sorgu" />
+      <button>Gönder</button>
+    </div>
+  </div>
+
+</body>
+</html>
