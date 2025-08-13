@@ -3,81 +3,99 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Havalı Ana Sayfa</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <title>Hoş Geldin - Havalı Sayfa</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
-    /* Genel Stil */
+    /* Temel Sıfırlama */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    body, html {
+    html, body {
       height: 100%;
+      width: 100%;
+      font-family: 'Poppins', sans-serif;
+      background-color: #0e0e0e;
       overflow: hidden;
-      font-family: 'Segoe UI', sans-serif;
       color: white;
     }
 
-    /* Arka Plan LED Efekti */
+    /* LED Arka Plan Efekti */
     .background {
-      position: absolute;
+      position: fixed;
+      top: -50%;
+      left: -50%;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle, #00ffcc 1px, transparent 1px);
+      background: radial-gradient(circle, #00ffe0 1px, transparent 1px);
       background-size: 50px 50px;
-      animation: rotateBackground 60s linear infinite;
+      animation: rotate 60s linear infinite;
       z-index: -1;
-      filter: brightness(0.3) blur(1px);
+      opacity: 0.15;
+      filter: blur(1px);
     }
 
-    @keyframes rotateBackground {
-      from {
+    @keyframes rotate {
+      0% {
         transform: rotate(0deg);
       }
-      to {
+      100% {
         transform: rotate(360deg);
       }
     }
 
-    /* İçerik */
-    .container {
+    /* Merkez İçerik */
+    .content {
       height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      backdrop-filter: blur(5px);
+      padding: 20px;
     }
 
     h1 {
-      font-size: 3em;
+      font-size: 3rem;
       margin-bottom: 20px;
+      background: linear-gradient(90deg, #00ffe0, #0077ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     p {
-      font-size: 1.2em;
-      opacity: 0.8;
+      font-size: 1.2rem;
+      color: #ccc;
     }
 
     /* Responsive */
     @media (max-width: 600px) {
       h1 {
-        font-size: 2em;
+        font-size: 2rem;
       }
+
       p {
-        font-size: 1em;
+        font-size: 1rem;
       }
     }
   </style>
 </head>
 <body>
+
+  <!-- LED Arka Plan -->
   <div class="background"></div>
 
-  <div class="container">
-    <h1>Hoş Geldin 🚀</h1>
-    <p>Bu havalı sayfa seninle daha güzel!</p>
+  <!-- Ana İçerik -->
+  <div class="content">
+    <h1>✨ Hoş Geldin! ✨</h1>
+    <p>Bu sayfa Vercel üzerinde senin için hazırlandı.</p>
   </div>
+
 </body>
 </html>
