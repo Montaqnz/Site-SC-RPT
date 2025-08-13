@@ -1,359 +1,244 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Oyun Giriş Sayfası</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oyun Paneli</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
   <style>
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      margin: 0; padding: 0; box-sizing: border-box;
     }
 
-    html, body {
-      height: 100%;
-      background: #000;
+    body {
       font-family: 'Orbitron', sans-serif;
+      background-color: #000;
       color: white;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
-    /* Kar Efekti */
-    .snow {
+    /* LED efektli arka plan */
+    .led-bg {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-      background: transparent;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, #a600ff 1px, transparent 1px);
+      background-size: 20px 20px;
+      animation: rotate 20s linear infinite;
+      opacity: 0.08;
+      z-index: -1;
     }
 
-    .snowflake {
-      position: absolute;
-      color: #fff;
-      font-size: 1em;
-      user-select: none;
-      animation: fall linear infinite;
-      opacity: 0.8;
-    }
-
-    @keyframes fall {
-      0% {
-        transform: translateY(-10px);
-        opacity: 0;
-      }
-      100% {
-        transform: translateY(100vh);
-        opacity: 0.9;
-      }
-    }
-
-    /* Arka plan geçişli efekt */
-    .background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      background: linear-gradient(-45deg, #0ff, #00f, #f0f, #0ff);
-      background-size: 400% 400%;
-      animation: gradient 15s ease infinite;
-      opacity: 0.05;
-      z-index: -2;
-    }
-
-    @keyframes gradient {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     /* Menü */
-    .menu-bar {
-      width: 100%;
+    .menu {
       display: flex;
       justify-content: center;
       gap: 30px;
       padding: 20px;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(8px);
-      position: fixed;
+      background: rgba(0,0,0,0.7);
+      position: sticky;
       top: 0;
-      left: 0;
-      z-index: 2;
+      z-index: 10;
+      backdrop-filter: blur(5px);
     }
 
     .menu-item {
-      font-size: 1.1rem;
       cursor: pointer;
-      padding: 10px 18px;
-      border-radius: 6px;
-      transition: all 0.3s ease;
-      color: #0ff;
-      border: 1px solid transparent;
+      color: #a600ff;
+      font-weight: bold;
+      transition: 0.3s;
     }
 
     .menu-item:hover {
-      background: #0ff;
-      color: #000;
+      color: white;
       transform: scale(1.05);
     }
 
-    /* İçerik */
-    .container {
+    /* Sayfa içerikleri */
+    .section {
+      padding: 60px 20px;
+      text-align: center;
+      transition: opacity 0.5s ease;
+    }
+
+    .section.hidden {
+      opacity: 0;
+      display: none;
+    }
+
+    .section.visible {
+      opacity: 1;
+      display: block;
+    }
+
+    .discord-link {
+      margin-top: 30px;
+      display: inline-block;
+      padding: 12px 20px;
+      background: #7289da;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .discord-link:hover {
+      background: #5b6eae;
+    }
+
+    .pricing {
+      margin-top: 50px;
+    }
+
+    .pricing h2 {
+      margin-bottom: 20px;
+      color: #a600ff;
+    }
+
+    .pricing ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .pricing li {
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    .category {
+      margin-top: 60px;
+    }
+
+    .category h3 {
+      color: #a600ff;
+      margin-bottom: 10px;
+    }
+
+    .category-buttons {
       display: flex;
       justify-content: center;
-      align-items: center;
-      height: 100%;
-      padding-top: 80px;
-      text-align: center;
-      z-index: 1;
-      position: relative;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 10px;
     }
 
-    .message-box {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid #0ff;
-      padding: 30px;
-      border-radius: 10px;
-      width: 80%;
-      max-width: 400px;
-      margin: 0 auto;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.6s ease;
-    }
-
-    .message-box.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-      background: linear-gradient(to right, #0ff, #00f);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    p {
-      font-size: 1.1rem;
-      color: #ccc;
-    }
-
-    @media (max-width: 600px) {
-      .menu-bar {
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-
-      .menu-item {
-        font-size: 1rem;
-        padding: 8px 14px;
-      }
-
-      h1 {
-        font-size: 1.8rem;
-      }
-
-      p {
-        font-size: 1rem;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Arka plan geçiş efekti -->
-  <div class="background"></div>
-
-  <!-- Kar Efekti -->
-  <div class="snow" id="snow"></div>
-
-  <!-- Menü -->
-  <div class="menu-bar">
-    <div class="menu-item" onclick="goster('FiveM')">FiveM</div>
-    <div class="menu-item" onclick="goster('CS2')">CS2</div>
-    <div class="menu-item" onclick="goster('Valorant')">Valorant</div>
-    <div class="menu-item" onclick="goster('Minecraft')">Minecraft</div>
-  </div>
-
-  <!-- İçerik -->
-  <div class="container">
-    <div class="message-box" id="messageBox">
-      <h1>🎮 Hoş Geldin</h1>
-      <p>Lütfen yukarıdan bir oyun seç.</p>
-    </div>
-  </div>
-
-  <script>
-    // Kar efektleri
-    const snowContainer = document.getElementById('snow');
-    for (let i = 0; i < 80; i++) {
-      let snowflake = document.createElement('div');
-      snowflake.classList.add('snowflake');
-      snowflake.style.left = Math.random() * 100 + 'vw';
-      snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
-      snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
-      snowflake.innerHTML = '❄';
-      snowContainer.appendChild(snowflake);
-    }
-
-    // Menü tıklama ve geçiş
-    function goster(oyun) {
-      const box = document.getElementById('messageBox');
-      box.classList.add('active');
-      box.innerHTML = `
-        <h1>${oyun}</h1>
-        <p>⏳ Yakında gelecek...</p>
-      `;
-    }
-  </script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ana Sayfa</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      height: 100%;
-      font-family: 'Orbitron', sans-serif;
-      background: url('qqq.PNG') no-repeat center center fixed;
-      background-size: cover;
-      color: white;
-    }
-
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.6);
-      z-index: 0;
-    }
-
-    .container {
-      position: relative;
-      z-index: 1;
-      height: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 50px;
-    }
-
-    .welcome {
-      max-width: 50%;
-    }
-
-    .welcome h1 {
-      font-size: 3rem;
-      margin-bottom: 20px;
-    }
-
-    .welcome p {
-      font-size: 1.2rem;
-      color: #ccc;
-    }
-
-    .form-box {
-      background: rgba(255, 255, 255, 0.08);
-      padding: 30px;
-      border-radius: 10px;
-      width: 300px;
-      backdrop-filter: blur(10px);
-    }
-
-    .form-box h2 {
-      margin-bottom: 20px;
-      color: #0ff;
-      font-size: 1.5rem;
-      text-align: center;
-    }
-
-    .form-box input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
+    .category-buttons button {
+      padding: 10px 20px;
+      background: #a600ff;
       border: none;
-      border-radius: 5px;
-      background: rgba(255,255,255,0.1);
+      border-radius: 6px;
       color: white;
-    }
-
-    .form-box input::placeholder {
-      color: #ccc;
-    }
-
-    .form-box button {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      background: #0ff;
-      color: black;
-      font-weight: bold;
       cursor: pointer;
       transition: 0.3s;
     }
 
-    .form-box button:hover {
-      background: #00c8c8;
+    .category-buttons button:hover {
+      background: #8400c3;
     }
 
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-        text-align: center;
-        padding: 20px;
-      }
+    .popup {
+      margin-top: 20px;
+      font-style: italic;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
 
-      .welcome {
-        max-width: 100%;
-        margin-bottom: 30px;
-      }
+    .popup.visible {
+      opacity: 1;
+    }
 
-      .form-box {
-        width: 100%;
+    @media (max-width: 600px) {
+      .menu {
+        flex-wrap: wrap;
+        gap: 15px;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="overlay"></div>
+  <div class="led-bg"></div>
 
-  <div class="container">
-    <div class="welcome">
-      <h1>🔍 Ana Sayfa</h1>
-      <p>Aradığın bilgiyi sorgulamak için formu kullan.</p>
+  <!-- Menü -->
+  <div class="menu">
+    <div class="menu-item" onclick="goTo('home')">Ana Sayfa</div>
+    <div class="menu-item" onclick="goTo('fivem')">FiveM</div>
+    <div class="menu-item" onclick="goTo('valorant')">Valorant</div>
+    <div class="menu-item" onclick="goTo('cs2')">CS2</div>
+  </div>
+
+  <!-- Ana Sayfa -->
+  <div id="home" class="section visible">
+    <h1>🎮 Oyun Hizmetleri</h1>
+    <p>Profesyonel script & yazılım hizmeti</p>
+    <a href="https://discord.gg/hTFjRtwg" target="_blank" class="discord-link">💬 Discord Sunucumuz</a>
+
+    <div class="pricing">
+      <h2>FiveM AimBOT</h2>
+      <ul>
+        <li>Günlük: 75 TL</li>
+        <li>Haftalık: 325 TL</li>
+        <li>Aylık: 850 TL</li>
+        <li>Sınırsız: 1250 TL</li>
+      </ul>
     </div>
 
-    <div class="form-box">
-      <h2>Sorgu Paneli</h2>
-      <input type="text" placeholder="Ad" />
-      <input type="text" placeholder="Soyad" />
-      <input type="text" placeholder="Sorgu" />
-      <button>Gönder</button>
+    <div class="category">
+      <h3>Kategoriler</h3>
+      <div class="category-buttons">
+        <button onclick="showPopup('fivem')">FiveM</button>
+        <button onclick="showPopup('valorant')">Valorant</button>
+        <button onclick="showPopup('cs2')">CS2</button>
+        <button onclick="showPopup('others')">Diğer</button>
+      </div>
+      <div id="popupMessage" class="popup">Yakında eklenecek...</div>
     </div>
   </div>
+
+  <!-- Diğer Sayfalar -->
+  <div id="fivem" class="section hidden">
+    <h1>FiveM</h1>
+    <p>Yakında gelecek...</p>
+  </div>
+
+  <div id="valorant" class="section hidden">
+    <h1>Valorant</h1>
+    <p>Yakında gelecek...</p>
+  </div>
+
+  <div id="cs2" class="section hidden">
+    <h1>CS2</h1>
+    <p>Yakında gelecek...</p>
+  </div>
+
+  <script>
+    function goTo(sectionId) {
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(sec => {
+        sec.classList.remove('visible');
+        sec.classList.add('hidden');
+      });
+      document.getElementById(sectionId).classList.remove('hidden');
+      document.getElementById(sectionId).classList.add('visible');
+    }
+
+    function showPopup(category) {
+      const popup = document.getElementById("popupMessage");
+      popup.textContent = category.toUpperCase() + " için içerik yakında eklenecek...";
+      popup.classList.add("visible");
+      setTimeout(() => {
+        popup.classList.remove("visible");
+      }, 3000);
+    }
+  </script>
 
 </body>
 </html>
