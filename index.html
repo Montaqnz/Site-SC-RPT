@@ -173,3 +173,117 @@
 </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kategoriler - HİLE FİYATLARI</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
+  body {
+    margin: 0;
+    background: black;
+    font-family: 'Orbitron', sans-serif;
+    color: #c36aff;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    min-height: 100vh;
+  }
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 40px;
+    color: #d98aff;
+    text-shadow: 0 0 15px #a600ffbb;
+  }
+
+  .kategori-listesi {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 900px;
+    width: 100%;
+  }
+
+  .kategori-item {
+    background: linear-gradient(135deg, #8a2aff, #d94aff);
+    padding: 30px 50px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 800;
+    font-size: 1.6rem;
+    color: white;
+    box-shadow: 0 0 20px #d94affcc;
+    user-select: none;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 1 1 200px;
+    max-width: 250px;
+  }
+
+  .kategori-item:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 35px #ff67ffcc;
+  }
+
+  button.back-btn {
+    margin-top: 60px;
+    padding: 12px 32px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    border-radius: 14px;
+    border: 2px solid #d94aff;
+    background: transparent;
+    color: #d94aff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+  }
+
+  button.back-btn:hover {
+    background: #d94aff;
+    color: white;
+  }
+</style>
+</head>
+<body>
+  <h1>HİLE FİYATLARI</h1>
+
+  <div class="kategori-listesi">
+    <div class="kategori-item" onclick="startCheckout('fivem')">FiveM</div>
+    <div class="kategori-item" onclick="startCheckout('valorant')">Valorant</div>
+    <div class="kategori-item" onclick="startCheckout('cs2')">CS2</div>
+  </div>
+
+  <button class="back-btn" onclick="goBack()">Ana Sayfaya Dön</button>
+
+<script>
+  window.onload = () => {
+    document.body.style.opacity = 1;
+  };
+
+  function startCheckout(kategori) {
+    // Animasyonlu sayfa geçişi
+    document.body.style.opacity = 0;
+    setTimeout(() => {
+      window.location.href = `checkout.html?kategori=${kategori}`;
+    }, 600);
+  }
+
+  function goBack() {
+    document.body.style.opacity = 0;
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 600);
+  }
+</script>
+</body>
+</html>
+
