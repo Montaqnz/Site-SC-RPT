@@ -1,360 +1,436 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Premium Hile Sitesi</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Premium Hile Sitesi - Demo</title>
+<style>
+  /* Genelde sıfırlamalar */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
 
-    /* Genel ayarlar */
-    body {
-      margin: 0;
-      background: linear-gradient(270deg, #0a001f, #220058, #0a001f);
-      background-size: 600% 600%;
-      animation: gradientShift 15s ease infinite;
-      font-family: 'Orbitron', sans-serif;
-      color: #c4a0ff;
-      overflow-x: hidden;
-    }
+  html, body {
+    height: 100%;
+    background: black;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #d6baff;
+    overflow-x: hidden;
+  }
 
-    @keyframes gradientShift {
-      0% {background-position:0% 50%;}
-      50% {background-position:100% 50%;}
-      100% {background-position:0% 50%;}
-    }
+  /* Arka plan kar efekti animasyonu */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    background-image: url('https://cdn.pixabay.com/photo/2017/11/10/05/05/snow-2936317_960_720.png');
+    background-repeat: repeat;
+    background-size: 50px 50px;
+    animation: snowFall 20s linear infinite;
+    opacity: 0.15;
+    z-index: 0;
+  }
+  @keyframes snowFall {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 1000px; }
+  }
 
-    /* Kar efekti */
-    .snowflake {
-      position: fixed;
-      top: -10px;
-      background: white;
-      opacity: 0.3;
-      border-radius: 50%;
-      filter: drop-shadow(0 0 3px #a855f7);
-      animation-name: fall;
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
-    }
-    @keyframes fall {
-      0% {
-        transform: translateY(-10px);
-        opacity: 0.3;
-      }
-      100% {
-        transform: translateY(110vh);
-        opacity: 0;
-      }
-    }
+  /* Mor LED hafif dönen çerçeve */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 5px; bottom: 5px; left: 5px; right: 5px;
+    border: 3px solid;
+    border-image: linear-gradient(270deg, #9a5cff, #5a1aff, #9a5cff) 1;
+    animation: ledRotate 10s linear infinite;
+    pointer-events: none;
+    border-radius: 20px;
+    z-index: 10;
+  }
+  @keyframes ledRotate {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+  }
 
-    /* Üst menü */
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: rgba(10, 0, 31, 0.85);
-      border-bottom: 1px solid #8e63ff;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      padding: 15px 10px;
-      z-index: 1000;
-      backdrop-filter: blur(6px);
-    }
-    nav button, nav a {
-      background: #1e0059;
-      border: none;
-      padding: 10px 18px;
-      color: #c4a0ff;
-      font-weight: 600;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      user-select: none;
-    }
-    nav button:hover, nav a:hover {
-      background: #9a5cff;
-      box-shadow: 0 0 10px #9a5cff;
-      color: white;
-      transform: scale(1.1);
-    }
+  /* Üst Menü */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(30,0,90,0.85);
+    backdrop-filter: blur(6px);
+    padding: 15px 25px;
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    z-index: 20;
+    border-bottom: 1px solid #9a5cffaa;
+  }
+  header button, header a {
+    background: transparent;
+    border: none;
+    color: #d6baff;
+    font-weight: 700;
+    font-size: 17px;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    user-select: none;
+  }
+  header button:hover, header a:hover {
+    background: #9a5cff;
+    color: white;
+    box-shadow: 0 0 10px #9a5cff;
+    transform: scale(1.1);
+  }
+  header button.active {
+    background: #7c41ff;
+    color: white;
+    box-shadow: 0 0 12px #7c41ff;
+  }
 
-    /* İçerik */
-    main {
-      padding-top: 80px;
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      gap: 30px;
-      flex-wrap: wrap;
-      padding-bottom: 100px;
-    }
+  /* Ana içerik alanı */
+  main {
+    margin-top: 80px;
+    padding: 30px 25px;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #cbbaff;
+    position: relative;
+    z-index: 15;
+  }
 
-    /* Kategori menü alanı */
-    #categories {
-      flex: 1 1 300px;
-      background: #250065cc;
-      border-radius: 20px;
-      padding: 30px 25px;
-      box-shadow: 0 0 20px #6e00ff88;
-      color: #d4a0ff;
-    }
+  /* Başlık */
+  main h1 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #d9baff;
+    text-shadow: 0 0 12px #9a5cffaa;
+  }
 
-    #categories h2 {
-      margin-bottom: 20px;
-      font-size: 28px;
-      font-weight: 700;
-      text-align: center;
-      text-shadow: 0 0 6px #b67aff;
-    }
+  /* Kategori İçerikleri */
+  #categoryContent {
+    background: rgba(50,0,120,0.85);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px #7c41ffaa;
+    min-height: 280px;
+    transition: opacity 0.5s ease;
+  }
+  #categoryContent h2 {
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+  }
+  #categoryContent p {
+    font-size: 1.15rem;
+    line-height: 1.5;
+  }
 
-    #categories button {
-      display: block;
-      width: 100%;
-      background: transparent;
-      border: 2px solid #9a5cff;
-      margin: 10px 0;
-      padding: 12px 15px;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 18px;
-      color: #c4a0ff;
-      cursor: pointer;
-      transition: background 0.3s, box-shadow 0.3s;
-      text-align: left;
-    }
-    #categories button:hover, #categories button.active {
-      background: #9a5cff;
-      color: white;
-      box-shadow: 0 0 15px #9a5cff;
-      transform: scale(1.05);
-    }
+  /* Satın alma kartlar */
+  .price-list {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    justify-content: center;
+  }
+  .price-card {
+    background: #5a1affcc;
+    border-radius: 15px;
+    padding: 25px 20px;
+    width: 160px;
+    box-shadow: 0 0 15px #9a5cffcc;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+  }
+  .price-card:hover {
+    background: #9a5cff;
+    box-shadow: 0 0 30px #d1a8ffcc;
+    transform: scale(1.1);
+  }
+  .price-card span {
+    display: block;
+    margin-top: 8px;
+    font-size: 1.1rem;
+  }
 
-    /* Kategori açıklama alanı */
-    #category-content {
-      flex: 2 1 600px;
-      background: #22004dcc;
-      border-radius: 20px;
-      padding: 40px 30px;
-      box-shadow: 0 0 30px #ab68ffbb;
-      color: #d6baff;
-      font-size: 20px;
-      line-height: 1.6;
-      min-height: 300px;
-      opacity: 1;
-      transition: opacity 0.5s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    #category-content.fade-out {
-      opacity: 0;
-    }
-    #category-content h3 {
-      margin-top: 0;
-      font-size: 36px;
-      color: #d29fff;
-      text-shadow: 0 0 10px #9a5cff;
-    }
-    #category-content p {
-      margin-top: 15px;
-      color: #e4d8ff;
-    }
+  /* Giriş butonu */
+  #loginBtn {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    background: linear-gradient(45deg, #9a5cff, #5a1aff);
+    border: none;
+    color: white;
+    font-weight: 700;
+    padding: 18px 30px;
+    border-radius: 50px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 0 20px #a855f7cc;
+    transition: background 0.3s ease, transform 0.3s ease;
+    z-index: 25;
+  }
+  #loginBtn:hover {
+    background: linear-gradient(45deg, #be7aff, #7f35ff);
+    transform: scale(1.1);
+  }
 
-    /* Fiyatlandırma alanı */
-    #pricing {
-      width: 100%;
-      margin-top: 40px;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    .price-card {
-      background: #2c0075;
-      padding: 25px 35px;
-      border-radius: 20px;
-      box-shadow: 0 0 15px #a95cff88;
-      color: #e5d8ff;
-      font-weight: 700;
-      font-size: 20px;
-      width: 180px;
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      user-select: none;
-    }
-    .price-card:hover {
-      box-shadow: 0 0 25px #ce91ffcc;
-      transform: scale(1.1);
-      background: #9a5cff;
-      color: white;
-    }
+  /* Kullanıcı alanı ve bakiye */
+  #userArea {
+    position: fixed;
+    top: 15px;
+    right: 30px;
+    background: rgba(90, 26, 255, 0.85);
+    padding: 12px 22px;
+    border-radius: 25px;
+    color: white;
+    font-weight: 700;
+    font-size: 17px;
+    user-select: none;
+    display: none;
+    z-index: 30;
+    box-shadow: 0 0 15px #9a5cffcc;
+  }
+  #userBalance {
+    margin-left: 12px;
+    font-weight: 900;
+    font-size: 18px;
+    color: #ffd646;
+  }
 
-    /* Giriş butonu */
-    #loginBtn {
-      position: fixed;
-      right: 30px;
-      bottom: 30px;
-      background: linear-gradient(45deg, #9a5cff, #5a1aff);
-      border: none;
-      color: white;
-      font-weight: 700;
-      padding: 15px 25px;
-      border-radius: 50px;
-      font-size: 18px;
-      cursor: pointer;
-      box-shadow: 0 0 20px #a855f7cc;
-      transition: background 0.3s ease, transform 0.3s ease;
-      z-index: 1100;
-    }
-    #loginBtn:hover {
-      background: linear-gradient(45deg, #be7aff, #7f35ff);
-      transform: scale(1.1);
-    }
+  /* Modal arka plan */
+  #loginModal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+  }
+  #loginModal.active {
+    display: flex;
+  }
 
-    /* Modal arka plan */
-    #loginModal {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.85);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1200;
-      font-family: 'Orbitron', sans-serif;
-    }
-    #loginModal.active {
-      display: flex;
-    }
+  /* Modal içerik */
+  #loginModal .modal-content {
+    background: #260066;
+    padding: 35px 40px;
+    border-radius: 25px;
+    box-shadow: 0 0 30px #9a5cffcc;
+    width: 380px;
+    color: #d9baff;
+    position: relative;
+    animation: fadeInScale 0.35s ease forwards;
+  }
+  @keyframes fadeInScale {
+    from {opacity: 0; transform: scale(0.8);}
+    to {opacity: 1; transform: scale(1);}
+  }
 
-    /* Modal içerik */
-    #loginModal .modal-content {
-      background: #1e0059;
-      padding: 40px 35px;
-      border-radius: 25px;
-      box-shadow: 0 0 40px #9a5cff;
-      width: 350px;
-      color: #d9baff;
-      position: relative;
-    }
-    #loginModal .modal-content h2 {
-      margin-top: 0;
-      margin-bottom: 20px;
-      color: white;
-      text-align: center;
-      text-shadow: 0 0 10px #d085ff;
-      font-size: 32px;
-    }
-    #loginModal .modal-content label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 600;
-      font-size: 14px;
-    }
-    #loginModal .modal-content input {
-      width: 100%;
-      padding: 12px 15px;
-      margin-bottom: 20px;
-      border-radius: 12px;
-      border: none;
-      background: #30008c;
-      color: #e0ccff;
-      font-weight: 600;
-      font-size: 16px;
-      box-shadow: inset 0 0 5px #5c1aff;
-      transition: box-shadow 0.3s ease;
-    }
-    #loginModal .modal-content input:focus {
-      outline: none;
-      box-shadow: 0 0 12px #a855f7;
-      background: #3e009f;
-    }
-    #loginModal .modal-content button.submitBtn {
-      width: 100%;
-      background: linear-gradient(45deg, #9a5cff, #5a1aff);
-      border: none;
-      color: white;
-      font-weight: 700;
-      padding: 15px 0;
-      border-radius: 20px;
-      font-size: 18px;
-      cursor: pointer;
-      box-shadow: 0 0 15px #a855f7;
-      transition: background 0.3s ease;
-    }
-    #loginModal .modal-content button.submitBtn:hover {
-      background: linear-gradient(45deg, #be7aff, #7f35ff);
-    }
-    #loginModal .modal-content .closeBtn {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      background: transparent;
-      border: none;
-      font-size: 28px;
-      color: #c0a0ff;
-      cursor: pointer;
-      transition: color 0.3s ease;
-    }
-    #loginModal .modal-content .closeBtn:hover {
-      color: white;
-    }
+  /* Modal başlık */
+  #loginModal h2 {
+    margin-bottom: 25px;
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+    text-shadow: 0 0 10px #d085ff;
+  }
 
-    /* Yazı animasyonu */
-    #category-content.fade-in {
-      animation: fadeInUp 0.6s forwards;
-    }
-    @keyframes fadeInUp {
-      0% {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+  /* Modal inputlar */
+  #loginModal label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #b8aaff;
+  }
+  #loginModal input {
+    width: 100%;
+    padding: 13px 15px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    border: none;
+    background: #3a0099;
+    color: #e0ccff;
+    font-weight: 600;
+    font-size: 16px;
+    box-shadow: inset 0 0 8px #7a33ff;
+    transition: box-shadow 0.3s ease;
+  }
+  #loginModal input:focus {
+    outline: none;
+    box-shadow: 0 0 16px #be7aff;
+    background: #4d00cc;
+  }
 
-  </style>
+  /* Submit buton */
+  #loginModal button.submitBtn {
+    width: 100%;
+    background: linear-gradient(45deg, #9a5cff, #5a1aff);
+    border: none;
+    color: white;
+    font-weight: 700;
+    padding: 15px 0;
+    border-radius: 20px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 0 15px #a855f7;
+    transition: background 0.3s ease;
+  }
+  #loginModal button.submitBtn:hover {
+    background: linear-gradient(45deg, #be7aff, #7f35ff);
+  }
+
+  /* Kapat butonu */
+  #loginModal .closeBtn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    font-size: 28px;
+    color: #c0a0ff;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  #loginModal .closeBtn:hover {
+    color: white;
+  }
+
+  /* Gizlilik politikası açılır menü */
+  #privacyMenu {
+    position: fixed;
+    bottom: 80px;
+    right: 30px;
+    background: rgba(40, 0, 90, 0.95);
+    padding: 25px 30px;
+    border-radius: 25px;
+    box-shadow: 0 0 25px #9a5cffbb;
+    width: 320px;
+    color: #d6baff;
+    font-size: 15px;
+    display: none;
+    z-index: 40;
+    animation: fadeSlideIn 0.4s ease forwards;
+  }
+  #privacyMenu.active {
+    display: block;
+  }
+  @keyframes fadeSlideIn {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+  #privacyMenu h3 {
+    margin-bottom: 15px;
+    text-align: center;
+    color: #c3aaff;
+  }
+  #privacyMenu p {
+    line-height: 1.4;
+  }
+  #privacyBtn {
+    position: fixed;
+    bottom: 15px;
+    right: 30px;
+    background: #7c41ff;
+    border-radius: 20px;
+    padding: 10px 18px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 0 15px #9a5cffcc;
+    z-index: 45;
+    user-select: none;
+    transition: background 0.3s ease;
+  }
+  #privacyBtn:hover {
+    background: #9a5cff;
+  }
+
+  /* Uyarı bakiye animasyonlu */
+  #balanceWarning {
+    position: fixed;
+    bottom: 90px;
+    right: 30px;
+    background: #a83232cc;
+    padding: 12px 22px;
+    border-radius: 20px;
+    color: white;
+    font-weight: 700;
+    font-size: 15px;
+    user-select: none;
+    box-shadow: 0 0 15px #ff5c5ccc;
+    display: none;
+    animation: pulseRed 1.8s ease infinite;
+    z-index: 60;
+  }
+  @keyframes pulseRed {
+    0%, 100% {box-shadow: 0 0 15px #ff5c5ccc;}
+    50% {box-shadow: 0 0 25px #ff1a1acc;}
+  }
+</style>
 </head>
 <body>
 
-  <nav>
-    <button class="category-btn active" data-cat="fivem">FiveM</button>
-    <button class="category-btn" data-cat="valorant">Valorant</button>
-    <button class="category-btn" data-cat="cs2">CS2</button>
-    <button class="category-btn" data-cat="aimbot">AimBOT</button>
-    <button class="category-btn" data-cat="esp">ESP</button>
-    <button class="category-btn" data-cat="vac">100/100 VAC KORUMA</button>
-    <a href="https://discord.gg/hTFjRtwg" target="_blank" rel="noopener" id="discordBtn">Discord Sunucumuz</a>
-  </nav>
+<header>
+  <button class="category-btn active" data-cat="cs2">CS2</button>
+  <button class="category-btn" data-cat="aimbot">AimBOT</button>
+  <button class="category-btn" data-cat="vac">100/100 VAC Koruma</button>
+  <a href="https://discord.gg/hTFjRtwg" target="_blank" rel="noopener" style="color:#d6baff; font-weight:700; text-decoration:none; user-select:none;">Discord Sunucumuz</a>
+</header>
 
-  <main>
-    <section id="categories">
-      <h2>Kategoriler</h2>
-      <button class="category-btn active" data-cat="fivem">FiveM</button>
-      <button class="category-btn" data-cat="valorant">Valorant</button>
-      <button class="category-btn" data-cat="cs2">CS2</button>
-      <button class="category-btn" data-cat="aimbot">AimBOT</button>
-      <button class="category-btn" data-cat="esp">ESP</button>
-      <button class="category-btn" data-cat="vac">100/100 VAC KORUMA</button>
-      <a href="https://discord.gg/hTFjRtwg" target="_blank" rel="noopener" class="category-btn" style="text-align:center; display:block; margin-top:20px;">Discord Sunucumuz</a>
-    </section>
+<main>
+  <h1>Premium Hile Sitesi</h1>
+  <div id="categoryContent">
+    <h2>CS2</h2>
+    <p>CS2 için hızlı, güvenli ve gizli hileler. %100 VAC korumalı. Sadece bizde!</p>
+    <div class="price-list" id="priceList">
+      <div class="price-card" data-price="50" data-title="Günlük">Günlük<br><span>50 TL</span></div>
+      <div class="price-card" data-price="200" data-title="Haftalık">Haftalık<br><span>200 TL</span></div>
+      <div class="price-card" data-price="600" data-title="Aylık">Aylık<br><span>600 TL</span></div>
+      <div class="price-card" data-price="1500" data-title="Sınırsız">Sınırsız<br><span>1500 TL</span></div>
+    </div>
+  </div>
+</main>
 
-    <section id="category-content">
-      <h3>FiveM</h3>
-      <p>FiveM GTA V için gelişmiş modlar ve hileler yakında sizlerle.</p>
+<button id="loginBtn">Giriş Yap</button>
+<div id="userArea">
+  Hoşgeldin, <span id="userName">--</span> | Bakiye: <span id="userBalance">0</span>₺
+</div>
 
-      <div id="pricing" style="margin-top: 40px; display:flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
-        <div class="price-card">Günlük<br><strong>75 TL</strong></div>
-        <div class="price-card">Haftalık<br><strong>325 TL</strong></div>
-        <div class="price-card">Aylık<br><strong>850 TL</strong></div>
-        <div class="price-card">Sınırsız<br><strong>1250 TL</strong></div>
-      </div>
-    </section>
-  </main>
+<!-- Giriş Modal -->
+<div id="loginModal">
+  <div class="modal-content">
+    <button class="closeBtn" title="Kapat">&times;</button>
+    <h2>Giriş Yap / Kayıt Ol</h2>
+    <form id="loginForm">
+      <label for="username">İsim:</label>
+      <input type="text" id="username" placeholder="İsminiz" required />
+      <label for="email">E-posta:</label>
+      <input type="email" id="email" placeholder="E-posta adresiniz" required />
+      <label for="password">Şifre:</label>
+      <input type="password" id="password" placeholder="Şifreniz" required />
+      <button type="submit" class="submitBtn">Giriş Yap</button>
+    </form>
+  </div>
+</div>
 
-  <button id="loginBtn">Giriş Yap</button>
+<!-- Gizlilik Politikası -->
+<div id="privacyMenu">
+  <h3>Gizlilik Politikası</h3>
+  <p>Kişisel bilgileriniz kesinlikle üçüncü taraflarla paylaşılmaz. Güvenliğiniz bizim önceliğimizdir.</p>
+</div>
+<button id="privacyBtn">Gizlilik Politikası</button>
 
-  <!-- G
+<!-- Bakiye Yetersiz Uyarısı -->
+<div id="balance
