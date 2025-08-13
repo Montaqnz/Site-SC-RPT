@@ -3,287 +3,171 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Oyun Hizmetleri</title>
+<title>Kategoriler - Kaliteli Tasarım</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
 
-  body {
-    margin: 0;
-    background: black;
-    font-family: 'Orbitron', sans-serif;
-    color: #c36aff;
-    overflow-x: hidden;
-    opacity: 0;
-    transition: opacity 0.6s ease;
+  * {
+    box-sizing: border-box;
   }
-
-  /* LED arka plan - mor hafif dönen küçük led */
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background:
-      radial-gradient(circle, #a600ff 1px, transparent 2px),
-      radial-gradient(circle, #bb88ff 1px, transparent 2px);
-    background-size: 20px 20px;
-    background-position: 0 0, 10px 10px;
-    animation: ledMove 4s linear infinite;
-    opacity: 0.15;
-    z-index: -1;
-  }
-  @keyframes ledMove {
-    0% {background-position: 0 0, 10px 10px;}
-    100% {background-position: 20px 20px, 30px 30px;}
-  }
-
-  /* Kar efekti */
-  .snowflake {
-    position: fixed;
-    top: -10px;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.8;
-    animation-name: fall;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-  }
-  @keyframes fall {
-    0% {transform: translateY(0);}
-    100% {transform: translateY(110vh);}
-  }
-
-  header {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    padding: 20px 0;
-    border-bottom: 1px solid #4b007a;
-  }
-  .menu-item {
-    cursor: pointer;
-    padding: 10px 25px;
-    border-radius: 10px;
-    transition: background-color 0.3s ease;
-    font-weight: 700;
-    font-size: 1.3rem;
-    user-select: none;
-  }
-  .menu-item:hover {
-    background-color: #7e1fff;
-    color: white;
-  }
-
-  main {
-    max-width: 900px;
-    margin: 50px auto 20px auto;
-    padding: 0 20px;
-  }
-  .discord-link {
-    display: inline-block;
-    margin-top: 20px;
-    color: #a600ff;
-    font-weight: 700;
-    text-decoration: none;
-    border: 2px solid #a600ff;
-    padding: 10px 20px;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-  }
-  .discord-link:hover {
-    background-color: #a600ff;
-    color: white;
-  }
-
-  .fiyatlar {
-    margin-top: 40px;
-    border: 2px solid #a600ff;
-    border-radius: 16px;
-    padding: 20px 30px;
-    color: #bb88ff;
-  }
-  .fiyatlar h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    color: #e0b3ff;
-  }
-  .fiyatlar ul {
-    list-style: none;
-    padding-left: 0;
-  }
-  .fiyatlar ul li {
-    margin-bottom: 10px;
-    font-weight: 600;
-  }
-</style>
-</head>
-<body>
-  <header>
-    <div class="menu-item" onclick="goKategori()">Kategoriler</div>
-    <div class="menu-item" onclick="startCheckout('fivem')">FiveM</div>
-    <div class="menu-item" onclick="startCheckout('valorant')">Valorant</div>
-    <div class="menu-item" onclick="startCheckout('cs2')">CS2</div>
-  </header>
-
-  <main>
-    <a href="https://discord.gg/hTFjRtwg" target="_blank" class="discord-link">Discord Sunucumuz</a>
-
-    <div class="fiyatlar">
-      <h2>Fiyatlar</h2>
-      <ul>
-        <li>FiveM AimBOT Günlük: 75 TL</li>
-        <li>FiveM AimBOT Haftalık: 325 TL</li>
-        <li>FiveM AimBOT Aylık: 850 TL</li>
-        <li>FiveM AimBOT Sınırsız: 1250 TL</li>
-        <li>Diğer tüm ürünler için bizimle iletişime geçin.</li>
-      </ul>
-    </div>
-  </main>
-
-<script>
-  // Sayfa açılırken opacity animasyonu
-  window.onload = () => {
-    document.body.style.opacity = 1;
-
-    // Kar efektini oluştur
-    for(let i=0; i<60; i++) {
-      const flake = document.createElement('div');
-      flake.className = 'snowflake';
-      flake.style.left = Math.random() * 100 + 'vw';
-      flake.style.width = flake.style.height = (Math.random()*3 + 2) + 'px';
-      flake.style.animationDuration = (Math.random()*3 + 3) + 's';
-      flake.style.animationDelay = (Math.random()*10) + 's';
-      document.body.appendChild(flake);
-    }
-  };
-
-  function startCheckout(kategori) {
-    document.body.style.transition = "opacity 0.6s ease";
-    document.body.style.opacity = 0;
-    setTimeout(() => {
-      window.location.href = `checkout.html?kategori=${kategori}`;
-    }, 600);
-  }
-  function goKategori() {
-    document.body.style.transition = "opacity 0.6s ease";
-    document.body.style.opacity = 0;
-    setTimeout(() => {
-      window.location.href = "kategori.html";
-    }, 600);
-  }
-</script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Kategoriler - HİLE FİYATLARI</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
 
   body {
     margin: 0;
-    background: black;
     font-family: 'Orbitron', sans-serif;
-    color: #c36aff;
-    opacity: 0;
-    transition: opacity 0.6s ease;
+    background: #000000;
+    color: #d9aaff;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 40px 20px;
     min-height: 100vh;
   }
 
-  h1 {
-    font-size: 3rem;
-    margin-bottom: 40px;
-    color: #d98aff;
-    text-shadow: 0 0 15px #a600ffbb;
-  }
-
-  .kategori-listesi {
+  /* Üst kategori menüsü */
+  nav {
     display: flex;
-    gap: 30px;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 900px;
-    width: 100%;
+    background: linear-gradient(90deg, #2a0055, #5c00aa);
+    padding: 15px 40px;
+    gap: 20px;
+    box-shadow: 0 0 15px #7e00ffaa;
   }
 
-  .kategori-item {
-    background: linear-gradient(135deg, #8a2aff, #d94aff);
-    padding: 30px 50px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: 800;
-    font-size: 1.6rem;
-    color: white;
-    box-shadow: 0 0 20px #d94affcc;
-    user-select: none;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    flex: 1 1 200px;
-    max-width: 250px;
-  }
-
-  .kategori-item:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 35px #ff67ffcc;
-  }
-
-  button.back-btn {
-    margin-top: 60px;
-    padding: 12px 32px;
-    font-weight: 700;
-    font-size: 1.2rem;
-    border-radius: 14px;
-    border: 2px solid #d94aff;
+  nav button {
     background: transparent;
-    color: #d94aff;
+    border: none;
+    color: #d9aaff;
+    font-weight: 700;
+    font-size: 1.1rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  nav button:hover,
+  nav button.active {
+    background: #a13aff;
+    color: white;
+    box-shadow: 0 0 15px #ff7fff;
+  }
+
+  /* İçerik bölümü */
+  main {
+    flex: 1;
+    display: flex;
+    padding: 40px;
+    gap: 40px;
+  }
+
+  /* Soldaki kategori içeriği */
+  section.description {
+    flex: 3;
+    background: #1a0a33;
+    border-radius: 20px;
+    padding: 30px 40px;
+    box-shadow: 0 0 30px #a136ffaa;
+    color: #e8d4ff;
+    font-size: 1.3rem;
+    line-height: 1.6;
     user-select: none;
   }
 
-  button.back-btn:hover {
-    background: #d94aff;
-    color: white;
+  /* Sağdaki açıklamalar veya ekstra kutu (isteğe bağlı) */
+  section.sidebar {
+    flex: 1.5;
+    background: #2c136a;
+    border-radius: 20px;
+    padding: 20px 30px;
+    color: #d9aaffcc;
+    font-size: 1rem;
+    box-shadow: 0 0 20px #7a34ffbb;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
   }
+
+  /* Alt kısım */
+  footer {
+    background: #1f0048;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+    color: #c5a7f7aa;
+    user-select: none;
+    border-top: 1px solid #4d33a3;
+  }
+
+  footer a {
+    color: #c5a7f7;
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+  }
+
+  footer a:hover {
+    color: #ff87ff;
+  }
+
+  /* Animasyonlu opacity geçişi */
+  .fade-in {
+    animation: fadeInAnim 0.5s ease forwards;
+  }
+
+  @keyframes fadeInAnim {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+
 </style>
 </head>
 <body>
-  <h1>HİLE FİYATLARI</h1>
 
-  <div class="kategori-listesi">
-    <div class="kategori-item" onclick="startCheckout('fivem')">FiveM</div>
-    <div class="kategori-item" onclick="startCheckout('valorant')">Valorant</div>
-    <div class="kategori-item" onclick="startCheckout('cs2')">CS2</div>
-  </div>
+<nav id="kategoriNav">
+  <button class="active" data-desc="Fivem, Grand Theft Auto V modifikasyon ve hile paketleriyle sunucu deneyimini artırır. Yakında yeni sürümler gelecek!">FiveM</button>
+  <button data-desc="Valorant hileleri ve ESP sistemleri, rekabetçi maçlarda üstünlük sağlar. Yakında!">Valorant</button>
+  <button data-desc="CS2 için özel geliştirilmiş hile ve ESP araçları %100 VAC korumalı. Çok yakında!">CS2</button>
+  <button data-desc="AimBOT sistemleri, hedefleri otomatik ve hassas şekilde takip eder. Kaliteli ve güvenilir.">AimBOT</button>
+  <button data-desc="ESP (Extra Sensory Perception) ile rakipleri duvar arkasından görebilirsiniz.">ESP</button>
+  <button data-desc="100/100 VAC Koruma ile hilelerimiz tespit edilmez, tam güvenlik sağlar.">100/100 VAC KORUMA</button>
+  <button data-desc="Discord sunucumuzda destek ve topluluk bulabilirsiniz: https://discord.gg/hTFjRtwg">Discord</button>
+</nav>
 
-  <button class="back-btn" onclick="goBack()">Ana Sayfaya Dön</button>
+<main>
+  <section class="description fade-in" id="kategoriDesc">
+    Fivem, Grand Theft Auto V modifikasyon ve hile paketleriyle sunucu deneyimini artırır. Yakında yeni sürümler gelecek!
+  </section>
+
+  <section class="sidebar">
+    <h3>Gizlilik ve Destek</h3>
+    <p>
+      <a href="#">Gizlilik Politikası</a> | 
+      <a href="#">Kullanım Koşulları</a> | 
+      <a href="#">İletişim</a>
+    </p>
+    <p>© 2025 Tüm Hakları Saklıdır.</p>
+  </section>
+</main>
 
 <script>
-  window.onload = () => {
-    document.body.style.opacity = 1;
-  };
+  const buttons = document.querySelectorAll('nav button');
+  const desc = document.getElementById('kategoriDesc');
 
-  function startCheckout(kategori) {
-    // Animasyonlu sayfa geçişi
-    document.body.style.opacity = 0;
-    setTimeout(() => {
-      window.location.href = `checkout.html?kategori=${kategori}`;
-    }, 600);
-  }
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Aktif sınıfı temizle
+      buttons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
 
-  function goBack() {
-    document.body.style.opacity = 0;
-    setTimeout(() => {
-      window.location.href = "index.html";
-    }, 600);
-  }
+      // Opacity sıfırla animasyon için
+      desc.style.opacity = 0;
+
+      setTimeout(() => {
+        // İçeriği değiştir
+        desc.textContent = button.getAttribute('data-desc');
+        desc.style.opacity = 1;
+      }, 300);
+    });
+  });
 </script>
+
 </body>
 </html>
-
