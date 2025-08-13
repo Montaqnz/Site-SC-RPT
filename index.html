@@ -1,490 +1,360 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Premium Hile Sitesi</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
 
-const categories = [
-  { id: "fivem", label: "FiveM", desc: "FiveM GTA V için gelişmiş modlar ve hileler" },
-  { id: "valorant", label: "Valorant", desc: "Valorant için rekabetçi hile ve ESP" },
-  { id: "cs2", label: "CS2", desc: "CS2 için %100 VAC korumalı hileler" },
-  { id: "aimbot", label: "AimBOT", desc: "Otomatik nişan alma sistemleri" },
-  { id: "esp", label: "ESP", desc: "Rakipleri duvar arkasından görün" },
-  { id: "vac", label: "100/100 VAC KORUMA", desc: "Tespit edilmeyen hileler" },
-  { id: "discord", label: "Discord", desc: "Discord sunucumuza katıl" },
-];
+    /* Genel ayarlar */
+    body {
+      margin: 0;
+      background: linear-gradient(270deg, #0a001f, #220058, #0a001f);
+      background-size: 600% 600%;
+      animation: gradientShift 15s ease infinite;
+      font-family: 'Orbitron', sans-serif;
+      color: #c4a0ff;
+      overflow-x: hidden;
+    }
 
-const prices = [
-  { title: "Günlük", price: "75 TL" },
-  { title: "Haftalık", price: "325 TL" },
-  { title: "Aylık", price: "850 TL" },
-  { title: "Sınırsız", price: "1250 TL" },
-];
+    @keyframes gradientShift {
+      0% {background-position:0% 50%;}
+      50% {background-position:100% 50%;}
+      100% {background-position:0% 50%;}
+    }
 
-export default function App() {
-  const [selectedCat, setSelectedCat] = useState("fivem");
-  const [loginOpen, setLoginOpen] = useState(false);
+    /* Kar efekti */
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      background: white;
+      opacity: 0.3;
+      border-radius: 50%;
+      filter: drop-shadow(0 0 3px #a855f7);
+      animation-name: fall;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+    @keyframes fall {
+      0% {
+        transform: translateY(-10px);
+        opacity: 0.3;
+      }
+      100% {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
 
-  const selectedCategory = categories.find((c) => c.id === selectedCat);
+    /* Üst menü */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(10, 0, 31, 0.85);
+      border-bottom: 1px solid #8e63ff;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 15px 10px;
+      z-index: 1000;
+      backdrop-filter: blur(6px);
+    }
+    nav button, nav a {
+      background: #1e0059;
+      border: none;
+      padding: 10px 18px;
+      color: #c4a0ff;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      user-select: none;
+    }
+    nav button:hover, nav a:hover {
+      background: #9a5cff;
+      box-shadow: 0 0 10px #9a5cff;
+      color: white;
+      transform: scale(1.1);
+    }
 
-  const handleDiscordClick = () => {
-    window.open("https://discord.gg/hTFjRtwg", "_blank");
-  };
+    /* İçerik */
+    main {
+      padding-top: 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      padding-bottom: 100px;
+    }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-r from-[#050014] via-[#1a0033] to-[#050014] text-purple-300 font-orbitron relative overflow-x-hidden">
-      {/* Arka plan Led & Kar efekti */}
-      <Background />
+    /* Kategori menü alanı */
+    #categories {
+      flex: 1 1 300px;
+      background: #250065cc;
+      border-radius: 20px;
+      padding: 30px 25px;
+      box-shadow: 0 0 20px #6e00ff88;
+      color: #d4a0ff;
+    }
 
-      {/* Üst Menü */}
-      <nav className="fixed top-0 left-0 right-0 bg-[#0a001fcc] backdrop-blur-md border-b border-purple-700 z-50 flex justify-center gap-8 py-4 shadow-lg">
-        {categories.map((cat) =>
-          cat.id === "discord" ? (
-            <button
-              key={cat.id}
-              onClick={handleDiscordClick}
-              className={`px-4 py-2 rounded-lg font-semibold text-purple-200 hover:text-white hover:bg-purple-700 transition-shadow shadow-md`}
-            >
-              {cat.label}
-            </button>
-          ) : (
-            <button
-              key={cat.id}
-              onClick={() => setSelectedCat(cat.id)}
-              className={`px-5 py-3 rounded-lg font-semibold transition-all duration-400
-                ${
-                  selectedCat === cat.id
-                    ? "bg-purple-700 shadow-[0_0_10px_#a855f7] text-white"
-                    : "hover:bg-purple-600 hover:text-white"
-                }`}
-            >
-              {cat.label}
-            </button>
-          )
-        )}
-        <button
-          onClick={() => setLoginOpen(true)}
-          className="ml-8 px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-900 rounded-lg font-bold text-white hover:scale-105 transition-transform"
-        >
-          Giriş Yap
-        </button>
-      </nav>
+    #categories h2 {
+      margin-bottom: 20px;
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      text-shadow: 0 0 6px #b67aff;
+    }
 
-      {/* Ana içerik */}
-      <main className="pt-28 max-w-7xl mx-auto px-4 flex flex-col md:flex-row gap-16 min-h-[80vh]">
-        {/* Kategori Açıklama */}
-        <section className="flex-1 bg-[#1c003fdd] rounded-3xl p-10 shadow-lg text-lg md:text-xl leading-relaxed">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={selectedCat}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-            >
-              <h2 className="text-4xl font-extrabold mb-6 text-purple-400 drop-shadow-lg">
-                {selectedCategory.label}
-              </h2>
-              <p className="text-purple-200">{selectedCategory.desc}</p>
-            </motion.div>
-          </AnimatePresence>
+    #categories button {
+      display: block;
+      width: 100%;
+      background: transparent;
+      border: 2px solid #9a5cff;
+      margin: 10px 0;
+      padding: 12px 15px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 18px;
+      color: #c4a0ff;
+      cursor: pointer;
+      transition: background 0.3s, box-shadow 0.3s;
+      text-align: left;
+    }
+    #categories button:hover, #categories button.active {
+      background: #9a5cff;
+      color: white;
+      box-shadow: 0 0 15px #9a5cff;
+      transform: scale(1.05);
+    }
 
-          {/* Fiyatlandırma */}
-          <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-6">
-            {prices.map(({ title, price }) => (
-              <motion.div
-                key={title}
-                whileHover={{ scale: 1.1, boxShadow: "0 0 12px #a855f7" }}
-                className="bg-[#2a004f] rounded-xl py-6 text-center cursor-pointer shadow-md text-purple-300 font-semibold text-lg"
-              >
-                <p>{title}</p>
-                <p className="mt-2 text-2xl text-white">{price}</p>
-              </motion.div>
-            ))}
-          </div>
-        </section>
+    /* Kategori açıklama alanı */
+    #category-content {
+      flex: 2 1 600px;
+      background: #22004dcc;
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: 0 0 30px #ab68ffbb;
+      color: #d6baff;
+      font-size: 20px;
+      line-height: 1.6;
+      min-height: 300px;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    #category-content.fade-out {
+      opacity: 0;
+    }
+    #category-content h3 {
+      margin-top: 0;
+      font-size: 36px;
+      color: #d29fff;
+      text-shadow: 0 0 10px #9a5cff;
+    }
+    #category-content p {
+      margin-top: 15px;
+      color: #e4d8ff;
+    }
 
-        {/* Yan Kısım */}
-        <aside className="w-full md:w-96 bg-[#260070cc] rounded-3xl p-8 shadow-lg flex flex-col justify-between">
-          <div>
-            <h3 className="text-xl font-bold text-purple-400 mb-6 border-b border-purple-600 pb-3">
-              Gizlilik & Destek
-            </h3>
-            <ul className="text-purple-200 space-y-3">
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-white transition-colors underline"
-                >
-                  Gizlilik Politikası
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-white transition-colors underline"
-                >
-                  Kullanım Koşulları
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-white transition-colors underline"
-                >
-                  İletişim
-                </a>
-              </li>
-            </ul>
-          </div>
-          <p className="mt-10 text-center text-purple-400 select-none">
-            © 2025 Tüm Hakları Saklıdır.
-          </p>
-        </aside>
-      </main>
+    /* Fiyatlandırma alanı */
+    #pricing {
+      width: 100%;
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .price-card {
+      background: #2c0075;
+      padding: 25px 35px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px #a95cff88;
+      color: #e5d8ff;
+      font-weight: 700;
+      font-size: 20px;
+      width: 180px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+    }
+    .price-card:hover {
+      box-shadow: 0 0 25px #ce91ffcc;
+      transform: scale(1.1);
+      background: #9a5cff;
+      color: white;
+    }
 
-      {/* Giriş Formu Modal */}
-      <AnimatePresence>
-        {loginOpen && (
-          <motion.div
-            className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-60"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className="bg-[#21004a] rounded-3xl p-10 w-96 shadow-2xl border border-purple-700"
-              initial={{ scale: 0.7, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.7, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <h2 className="text-3xl font-extrabold text-purple-300 mb-6 text-center">
-                Giriş Yap
-              </h2>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  alert("Giriş başarılı (demo)!");
-                  setLoginOpen(false);
-                }}
-                className="flex flex-col gap-5"
-              >
-                <input
-                  type="email"
-                  placeholder="E-posta adresi"
-                  required
-                  className="rounded-md px-4 py-3 bg-[#37008c] text-purple-200 placeholder-purple-400 border border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-                <input
-                  type="password"
-                  placeholder="Parola"
-                  required
-                  className="rounded-md px-4 py-3 bg-[#37008c] text-purple-200 placeholder-purple-400 border border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-                <button
-                  type="submit"
-                  className="mt-2 bg-gradient-to-r from-purple-700 to-purple-900 text-white font-bold rounded-lg py-3 hover:scale-105 transition-transform"
-                >
-                  Giriş Yap
-                </button>
-              </form>
-              <button
-                onClick={() => setLoginOpen(false)}
-                className="mt-6 w-full text-center text-purple-400 hover:text-purple-600"
-              >
-                İptal
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
+    /* Giriş butonu */
+    #loginBtn {
+      position: fixed;
+      right: 30px;
+      bottom: 30px;
+      background: linear-gradient(45deg, #9a5cff, #5a1aff);
+      border: none;
+      color: white;
+      font-weight: 700;
+      padding: 15px 25px;
+      border-radius: 50px;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 0 20px #a855f7cc;
+      transition: background 0.3s ease, transform 0.3s ease;
+      z-index: 1100;
+    }
+    #loginBtn:hover {
+      background: linear-gradient(45deg, #be7aff, #7f35ff);
+      transform: scale(1.1);
+    }
 
-// Arka plan ve kar efekti
-function Background() {
-  return (
-    <>
-      <motion.div
-        className="fixed inset-0 bg-gradient-to-r from-[#0c001d] via-[#240052] to-[#0c001d]"
-        style={{ zIndex: -10 }}
-        animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-      />
-      {/* Kar efekti */}
-      <motion.div
-        className="fixed inset-0 pointer-events-none"
-        style={{ zIndex: -9 }}
-      >
-        {[...Array(50)].map((_, i) => (
-          <Snowflake key={i} />
-        ))}
-      </motion.div>
-    </>
-  );
-}
+    /* Modal arka plan */
+    #loginModal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1200;
+      font-family: 'Orbitron', sans-serif;
+    }
+    #loginModal.active {
+      display: flex;
+    }
 
-function Snowflake() {
-  return (
-    <motion.div
-      className="absolute bg-white rounded-full opacity-40"
-      style={{
-        width: 6,
-        height: 6,
-        top: Math.random() * 100 + "%",
-        left: Math.random() * 100 + "%",
-      }}
-      animate={{ y: ["-10%", "110%"] }}
-      transition={{
-        repeat: Infinity,
-        duration: 7 + Math.random() * 5,
-        ease: "linear",
-        delay: Math.random() * 5,
-      }}
-    />
-  );
-}
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+    /* Modal içerik */
+    #loginModal .modal-content {
+      background: #1e0059;
+      padding: 40px 35px;
+      border-radius: 25px;
+      box-shadow: 0 0 40px #9a5cff;
+      width: 350px;
+      color: #d9baff;
+      position: relative;
+    }
+    #loginModal .modal-content h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: white;
+      text-align: center;
+      text-shadow: 0 0 10px #d085ff;
+      font-size: 32px;
+    }
+    #loginModal .modal-content label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    #loginModal .modal-content input {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      border: none;
+      background: #30008c;
+      color: #e0ccff;
+      font-weight: 600;
+      font-size: 16px;
+      box-shadow: inset 0 0 5px #5c1aff;
+      transition: box-shadow 0.3s ease;
+    }
+    #loginModal .modal-content input:focus {
+      outline: none;
+      box-shadow: 0 0 12px #a855f7;
+      background: #3e009f;
+    }
+    #loginModal .modal-content button.submitBtn {
+      width: 100%;
+      background: linear-gradient(45deg, #9a5cff, #5a1aff);
+      border: none;
+      color: white;
+      font-weight: 700;
+      padding: 15px 0;
+      border-radius: 20px;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #a855f7;
+      transition: background 0.3s ease;
+    }
+    #loginModal .modal-content button.submitBtn:hover {
+      background: linear-gradient(45deg, #be7aff, #7f35ff);
+    }
+    #loginModal .modal-content .closeBtn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      font-size: 28px;
+      color: #c0a0ff;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    #loginModal .modal-content .closeBtn:hover {
+      color: white;
+    }
 
-const categories = [
-  { id: "fivem", label: "FiveM", desc: "FiveM GTA V için gelişmiş modlar ve hileler" },
-  { id: "valorant", label: "Valorant", desc: "Valorant için rekabetçi hile ve ESP" },
-  { id: "cs2", label: "CS2", desc: "CS2 için %100 VAC korumalı hileler" },
-  { id: "aimbot", label: "AimBOT", desc: "Otomatik nişan alma sistemleri" },
-  { id: "esp", label: "ESP", desc: "Rakipleri duvar arkasından görün" },
-  { id: "vac", label: "100/100 VAC KORUMA", desc: "Tespit edilmeyen hileler" },
-  { id: "discord", label: "Discord", desc: "Discord sunucumuza katıl" },
-];
+    /* Yazı animasyonu */
+    #category-content.fade-in {
+      animation: fadeInUp 0.6s forwards;
+    }
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-const prices = [
-  { title: "Günlük", price: "75 TL" },
-  { title: "Haftalık", price: "325 TL" },
-  { title: "Aylık", price: "850 TL" },
-  { title: "Sınırsız", price: "1250 TL" },
-];
+  </style>
+</head>
+<body>
 
-export default function App() {
-  const [selectedCat, setSelectedCat] = useState("fivem");
-  const [loginOpen, setLoginOpen] = useState(false);
+  <nav>
+    <button class="category-btn active" data-cat="fivem">FiveM</button>
+    <button class="category-btn" data-cat="valorant">Valorant</button>
+    <button class="category-btn" data-cat="cs2">CS2</button>
+    <button class="category-btn" data-cat="aimbot">AimBOT</button>
+    <button class="category-btn" data-cat="esp">ESP</button>
+    <button class="category-btn" data-cat="vac">100/100 VAC KORUMA</button>
+    <a href="https://discord.gg/hTFjRtwg" target="_blank" rel="noopener" id="discordBtn">Discord Sunucumuz</a>
+  </nav>
 
-  const selectedCategory = categories.find((c) => c.id === selectedCat);
+  <main>
+    <section id="categories">
+      <h2>Kategoriler</h2>
+      <button class="category-btn active" data-cat="fivem">FiveM</button>
+      <button class="category-btn" data-cat="valorant">Valorant</button>
+      <button class="category-btn" data-cat="cs2">CS2</button>
+      <button class="category-btn" data-cat="aimbot">AimBOT</button>
+      <button class="category-btn" data-cat="esp">ESP</button>
+      <button class="category-btn" data-cat="vac">100/100 VAC KORUMA</button>
+      <a href="https://discord.gg/hTFjRtwg" target="_blank" rel="noopener" class="category-btn" style="text-align:center; display:block; margin-top:20px;">Discord Sunucumuz</a>
+    </section>
 
-  const handleDiscordClick = () => {
-    window.open("https://discord.gg/hTFjRtwg", "_blank");
-  };
+    <section id="category-content">
+      <h3>FiveM</h3>
+      <p>FiveM GTA V için gelişmiş modlar ve hileler yakında sizlerle.</p>
 
-  return (
-    <div className="min-h-screen bg-gradient-to-r from-[#050014] via-[#1a0033] to-[#050014] text-purple-300 font-orbitron relative overflow-x-hidden">
-      {/* Arka plan Led & Kar efekti */}
-      <Background />
+      <div id="pricing" style="margin-top: 40px; display:flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+        <div class="price-card">Günlük<br><strong>75 TL</strong></div>
+        <div class="price-card">Haftalık<br><strong>325 TL</strong></div>
+        <div class="price-card">Aylık<br><strong>850 TL</strong></div>
+        <div class="price-card">Sınırsız<br><strong>1250 TL</strong></div>
+      </div>
+    </section>
+  </main>
 
-      {/* Üst Menü */}
-      <nav className="fixed top-0 left-0 right-0 bg-[#0a001fcc] backdrop-blur-md border-b border-purple-700 z-50 flex justify-center gap-8 py-4 shadow-lg">
-        {categories.map((cat) =>
-          cat.id === "discord" ? (
-            <button
-              key={cat.id}
-              onClick={handleDiscordClick}
-              className={`px-4 py-2 rounded-lg font-semibold text-purple-200 hover:text-white hover:bg-purple-700 transition-shadow shadow-md`}
-            >
-              {cat.label}
-            </button>
-          ) : (
-            <button
-              key={cat.id}
-              onClick={() => setSelectedCat(cat.id)}
-              className={`px-5 py-3 rounded-lg font-semibold transition-all duration-400
-                ${
-                  selectedCat === cat.id
-                    ? "bg-purple-700 shadow-[0_0_10px_#a855f7] text-white"
-                    : "hover:bg-purple-600 hover:text-white"
-                }`}
-            >
-              {cat.label}
-            </button>
-          )
-        )}
-        <button
-          onClick={() => setLoginOpen(true)}
-          className="ml-8 px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-900 rounded-lg font-bold text-white hover:scale-105 transition-transform"
-        >
-          Giriş Yap
-        </button>
-      </nav>
+  <button id="loginBtn">Giriş Yap</button>
 
-      {/* Ana içerik */}
-      <main className="pt-28 max-w-7xl mx-auto px-4 flex flex-col md:flex-row gap-16 min-h-[80vh]">
-        {/* Kategori Açıklama */}
-        <section className="flex-1 bg-[#1c003fdd] rounded-3xl p-10 shadow-lg text-lg md:text-xl leading-relaxed">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={selectedCat}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-            >
-              <h2 className="text-4xl font-extrabold mb-6 text-purple-400 drop-shadow-lg">
-                {selectedCategory.label}
-              </h2>
-              <p className="text-purple-200">{selectedCategory.desc}</p>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Fiyatlandırma */}
-          <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-6">
-            {prices.map(({ title, price }) => (
-              <motion.div
-                key={title}
-                whileHover={{ scale: 1.1, boxShadow: "0 0 12px #a855f7" }}
-                className="bg-[#2a004f] rounded-xl py-6 text-center cursor-pointer shadow-md text-purple-300 font-semibold text-lg"
-              >
-                <p>{title}</p>
-                <p className="mt-2 text-2xl text-white">{price}</p>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-
-        {/* Yan Kısım */}
-        <aside className="w-full md:w-96 bg-[#260070cc] rounded-3xl p-8 shadow-lg flex flex-col justify-between">
-          <div>
-            <h3 className="text-xl font-bold text-purple-400 mb-6 border-b border-purple-600 pb-3">
-              Gizlilik & Destek
-            </h3>
-            <ul className="text-purple-200 space-y-3">
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-white transition-colors underline"
-                >
-                  Gizlilik Politikası
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-white transition-colors underline"
-                >
-                  Kullanım Koşulları
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-white transition-colors underline"
-                >
-                  İletişim
-                </a>
-              </li>
-            </ul>
-          </div>
-          <p className="mt-10 text-center text-purple-400 select-none">
-            © 2025 Tüm Hakları Saklıdır.
-          </p>
-        </aside>
-      </main>
-
-      {/* Giriş Formu Modal */}
-      <AnimatePresence>
-        {loginOpen && (
-          <motion.div
-            className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-60"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className="bg-[#21004a] rounded-3xl p-10 w-96 shadow-2xl border border-purple-700"
-              initial={{ scale: 0.7, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.7, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <h2 className="text-3xl font-extrabold text-purple-300 mb-6 text-center">
-                Giriş Yap
-              </h2>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  alert("Giriş başarılı (demo)!");
-                  setLoginOpen(false);
-                }}
-                className="flex flex-col gap-5"
-              >
-                <input
-                  type="email"
-                  placeholder="E-posta adresi"
-                  required
-                  className="rounded-md px-4 py-3 bg-[#37008c] text-purple-200 placeholder-purple-400 border border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-                <input
-                  type="password"
-                  placeholder="Parola"
-                  required
-                  className="rounded-md px-4 py-3 bg-[#37008c] text-purple-200 placeholder-purple-400 border border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-                <button
-                  type="submit"
-                  className="mt-2 bg-gradient-to-r from-purple-700 to-purple-900 text-white font-bold rounded-lg py-3 hover:scale-105 transition-transform"
-                >
-                  Giriş Yap
-                </button>
-              </form>
-              <button
-                onClick={() => setLoginOpen(false)}
-                className="mt-6 w-full text-center text-purple-400 hover:text-purple-600"
-              >
-                İptal
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-// Arka plan ve kar efekti
-function Background() {
-  return (
-    <>
-      <motion.div
-        className="fixed inset-0 bg-gradient-to-r from-[#0c001d] via-[#240052] to-[#0c001d]"
-        style={{ zIndex: -10 }}
-        animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-      />
-      {/* Kar efekti */}
-      <motion.div
-        className="fixed inset-0 pointer-events-none"
-        style={{ zIndex: -9 }}
-      >
-        {[...Array(50)].map((_, i) => (
-          <Snowflake key={i} />
-        ))}
-      </motion.div>
-    </>
-  );
-}
-
-function Snowflake() {
-  return (
-    <motion.div
-      className="absolute bg-white rounded-full opacity-40"
-      style={{
-        width: 6,
-        height: 6,
-        top: Math.random() * 100 + "%",
-        left: Math.random() * 100 + "%",
-      }}
-      animate={{ y: ["-10%", "110%"] }}
-      transition={{
-        repeat: Infinity,
-        duration: 7 + Math.random() * 5,
-        ease: "linear",
-        delay: Math.random() * 5,
-      }}
-    />
-  );
-}
+  <!-- G
