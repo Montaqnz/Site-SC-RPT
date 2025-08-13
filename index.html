@@ -1,244 +1,175 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Oyun Paneli</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Oyun Hizmetleri</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
 
-    body {
-      font-family: 'Orbitron', sans-serif;
-      background-color: #000;
-      color: white;
-      overflow-x: hidden;
-    }
+  body {
+    margin: 0;
+    background: black;
+    font-family: 'Orbitron', sans-serif;
+    color: #c36aff;
+    overflow-x: hidden;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
 
-    /* LED efektli arka plan */
-    .led-bg {
-      position: fixed;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, #a600ff 1px, transparent 1px);
-      background-size: 20px 20px;
-      animation: rotate 20s linear infinite;
-      opacity: 0.08;
-      z-index: -1;
-    }
+  /* LED arka plan - mor hafif dönen küçük led */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(circle, #a600ff 1px, transparent 2px),
+      radial-gradient(circle, #bb88ff 1px, transparent 2px);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    animation: ledMove 4s linear infinite;
+    opacity: 0.15;
+    z-index: -1;
+  }
+  @keyframes ledMove {
+    0% {background-position: 0 0, 10px 10px;}
+    100% {background-position: 20px 20px, 30px 30px;}
+  }
 
-    @keyframes rotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+  /* Kar efekti */
+  .snowflake {
+    position: fixed;
+    top: -10px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  @keyframes fall {
+    0% {transform: translateY(0);}
+    100% {transform: translateY(110vh);}
+  }
 
-    /* Menü */
-    .menu {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      padding: 20px;
-      background: rgba(0,0,0,0.7);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      backdrop-filter: blur(5px);
-    }
+  header {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px 0;
+    border-bottom: 1px solid #4b007a;
+  }
+  .menu-item {
+    cursor: pointer;
+    padding: 10px 25px;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    font-weight: 700;
+    font-size: 1.3rem;
+    user-select: none;
+  }
+  .menu-item:hover {
+    background-color: #7e1fff;
+    color: white;
+  }
 
-    .menu-item {
-      cursor: pointer;
-      color: #a600ff;
-      font-weight: bold;
-      transition: 0.3s;
-    }
+  main {
+    max-width: 900px;
+    margin: 50px auto 20px auto;
+    padding: 0 20px;
+  }
+  .discord-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #a600ff;
+    font-weight: 700;
+    text-decoration: none;
+    border: 2px solid #a600ff;
+    padding: 10px 20px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+  }
+  .discord-link:hover {
+    background-color: #a600ff;
+    color: white;
+  }
 
-    .menu-item:hover {
-      color: white;
-      transform: scale(1.05);
-    }
-
-    /* Sayfa içerikleri */
-    .section {
-      padding: 60px 20px;
-      text-align: center;
-      transition: opacity 0.5s ease;
-    }
-
-    .section.hidden {
-      opacity: 0;
-      display: none;
-    }
-
-    .section.visible {
-      opacity: 1;
-      display: block;
-    }
-
-    .discord-link {
-      margin-top: 30px;
-      display: inline-block;
-      padding: 12px 20px;
-      background: #7289da;
-      color: white;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-
-    .discord-link:hover {
-      background: #5b6eae;
-    }
-
-    .pricing {
-      margin-top: 50px;
-    }
-
-    .pricing h2 {
-      margin-bottom: 20px;
-      color: #a600ff;
-    }
-
-    .pricing ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .pricing li {
-      margin-bottom: 10px;
-      font-size: 1.1rem;
-    }
-
-    .category {
-      margin-top: 60px;
-    }
-
-    .category h3 {
-      color: #a600ff;
-      margin-bottom: 10px;
-    }
-
-    .category-buttons {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-top: 10px;
-    }
-
-    .category-buttons button {
-      padding: 10px 20px;
-      background: #a600ff;
-      border: none;
-      border-radius: 6px;
-      color: white;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .category-buttons button:hover {
-      background: #8400c3;
-    }
-
-    .popup {
-      margin-top: 20px;
-      font-style: italic;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .popup.visible {
-      opacity: 1;
-    }
-
-    @media (max-width: 600px) {
-      .menu {
-        flex-wrap: wrap;
-        gap: 15px;
-      }
-    }
-  </style>
+  .fiyatlar {
+    margin-top: 40px;
+    border: 2px solid #a600ff;
+    border-radius: 16px;
+    padding: 20px 30px;
+    color: #bb88ff;
+  }
+  .fiyatlar h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #e0b3ff;
+  }
+  .fiyatlar ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  .fiyatlar ul li {
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+</style>
 </head>
 <body>
+  <header>
+    <div class="menu-item" onclick="goKategori()">Kategoriler</div>
+    <div class="menu-item" onclick="startCheckout('fivem')">FiveM</div>
+    <div class="menu-item" onclick="startCheckout('valorant')">Valorant</div>
+    <div class="menu-item" onclick="startCheckout('cs2')">CS2</div>
+  </header>
 
-  <div class="led-bg"></div>
+  <main>
+    <a href="https://discord.gg/hTFjRtwg" target="_blank" class="discord-link">Discord Sunucumuz</a>
 
-  <!-- Menü -->
-  <div class="menu">
-    <div class="menu-item" onclick="goTo('home')">Ana Sayfa</div>
-    <div class="menu-item" onclick="goTo('fivem')">FiveM</div>
-    <div class="menu-item" onclick="goTo('valorant')">Valorant</div>
-    <div class="menu-item" onclick="goTo('cs2')">CS2</div>
-  </div>
-
-  <!-- Ana Sayfa -->
-  <div id="home" class="section visible">
-    <h1>🎮 Oyun Hizmetleri</h1>
-    <p>Profesyonel script & yazılım hizmeti</p>
-    <a href="https://discord.gg/hTFjRtwg" target="_blank" class="discord-link">💬 Discord Sunucumuz</a>
-
-    <div class="pricing">
-      <h2>FiveM AimBOT</h2>
+    <div class="fiyatlar">
+      <h2>Fiyatlar</h2>
       <ul>
-        <li>Günlük: 75 TL</li>
-        <li>Haftalık: 325 TL</li>
-        <li>Aylık: 850 TL</li>
-        <li>Sınırsız: 1250 TL</li>
+        <li>FiveM AimBOT Günlük: 75 TL</li>
+        <li>FiveM AimBOT Haftalık: 325 TL</li>
+        <li>FiveM AimBOT Aylık: 850 TL</li>
+        <li>FiveM AimBOT Sınırsız: 1250 TL</li>
+        <li>Diğer tüm ürünler için bizimle iletişime geçin.</li>
       </ul>
     </div>
+  </main>
 
-    <div class="category">
-      <h3>Kategoriler</h3>
-      <div class="category-buttons">
-        <button onclick="showPopup('fivem')">FiveM</button>
-        <button onclick="showPopup('valorant')">Valorant</button>
-        <button onclick="showPopup('cs2')">CS2</button>
-        <button onclick="showPopup('others')">Diğer</button>
-      </div>
-      <div id="popupMessage" class="popup">Yakında eklenecek...</div>
-    </div>
-  </div>
+<script>
+  // Sayfa açılırken opacity animasyonu
+  window.onload = () => {
+    document.body.style.opacity = 1;
 
-  <!-- Diğer Sayfalar -->
-  <div id="fivem" class="section hidden">
-    <h1>FiveM</h1>
-    <p>Yakında gelecek...</p>
-  </div>
-
-  <div id="valorant" class="section hidden">
-    <h1>Valorant</h1>
-    <p>Yakında gelecek...</p>
-  </div>
-
-  <div id="cs2" class="section hidden">
-    <h1>CS2</h1>
-    <p>Yakında gelecek...</p>
-  </div>
-
-  <script>
-    function goTo(sectionId) {
-      const sections = document.querySelectorAll('.section');
-      sections.forEach(sec => {
-        sec.classList.remove('visible');
-        sec.classList.add('hidden');
-      });
-      document.getElementById(sectionId).classList.remove('hidden');
-      document.getElementById(sectionId).classList.add('visible');
+    // Kar efektini oluştur
+    for(let i=0; i<60; i++) {
+      const flake = document.createElement('div');
+      flake.className = 'snowflake';
+      flake.style.left = Math.random() * 100 + 'vw';
+      flake.style.width = flake.style.height = (Math.random()*3 + 2) + 'px';
+      flake.style.animationDuration = (Math.random()*3 + 3) + 's';
+      flake.style.animationDelay = (Math.random()*10) + 's';
+      document.body.appendChild(flake);
     }
+  };
 
-    function showPopup(category) {
-      const popup = document.getElementById("popupMessage");
-      popup.textContent = category.toUpperCase() + " için içerik yakında eklenecek...";
-      popup.classList.add("visible");
-      setTimeout(() => {
-        popup.classList.remove("visible");
-      }, 3000);
-    }
-  </script>
-
+  function startCheckout(kategori) {
+    document.body.style.transition = "opacity 0.6s ease";
+    document.body.style.opacity = 0;
+    setTimeout(() => {
+      window.location.href = `checkout.html?kategori=${kategori}`;
+    }, 600);
+  }
+  function goKategori() {
+    document.body.style.transition = "opacity 0.6s ease";
+    document.body.style.opacity = 0;
+    setTimeout(() => {
+      window.location.href = "kategori.html";
+    }, 600);
+  }
+</script>
 </body>
 </html>
