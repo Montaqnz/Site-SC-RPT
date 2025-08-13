@@ -12,7 +12,7 @@
       box-sizing: border-box;
     }
 
-    body, html {
+    html, body {
       height: 100%;
       background: #000;
       font-family: 'Orbitron', sans-serif;
@@ -20,7 +20,39 @@
       overflow: hidden;
     }
 
-    /* Geçişli Arka Plan Efekti */
+    /* Kar Efekti */
+    .snow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      background: transparent;
+    }
+
+    .snowflake {
+      position: absolute;
+      color: #fff;
+      font-size: 1em;
+      user-select: none;
+      animation: fall linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-10px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(100vh);
+        opacity: 0.9;
+      }
+    }
+
+    /* Arka plan geçişli efekt */
     .background {
       position: fixed;
       top: 0;
@@ -30,8 +62,8 @@
       background: linear-gradient(-45deg, #0ff, #00f, #f0f, #0ff);
       background-size: 400% 400%;
       animation: gradient 15s ease infinite;
-      opacity: 0.08;
-      z-index: -1;
+      opacity: 0.05;
+      z-index: -2;
     }
 
     @keyframes gradient {
@@ -40,178 +72,84 @@
       100% {background-position: 0% 50%;}
     }
 
-    .container {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-    }
-
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 30px;
-    }
-
-    .menu {
-      display: flex;
-      gap: 30px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .menu-item {
-      font-size: 1.5rem;
-      cursor: pointer;
-      padding: 12px 24px;
-      border: 2px solid #0ff;
-      border-radius: 10px;
-      transition: all 0.3s ease;
-    }
-
-    .menu-item:hover {
-      background-color: #0ff;
-      color: #000;
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2rem;
-      }
-
-      .menu-item {
-        font-size: 1.2rem;
-        padding: 10px 20px;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <div class="background"></div>
-
-  <div class="container">
-    <h1>🎮 Oyun Girişleri</h1>
-    <div class="menu">
-      <div class="menu-item" onclick="yakinda('FiveM')">FiveM</div>
-      <div class="menu-item" onclick="yakinda('CS2')">CS2</div>
-      <div class="menu-item" onclick="yakinda('Valorant')">Valorant</div>
-      <div class="menu-item" onclick="yakinda('Minecraft')">Minecraft</div>
-    </div>
-  </div>
-
-  <script>
-    function yakinda(oyun) {
-      alert(oyun + " bölümü yakında aktif olacak!");
-    }
-  </script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Oyun Giriş Sayfası</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body, html {
-      height: 100%;
-      background: #000;
-      font-family: 'Orbitron', sans-serif;
-      color: white;
-      overflow: hidden;
-    }
-
-    /* Arka Plan Geçiş Efekti */
-    .background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      background: linear-gradient(-45deg, #0ff, #00f, #f0f, #0ff);
-      background-size: 400% 400%;
-      animation: gradient 15s ease infinite;
-      opacity: 0.07;
-      z-index: -1;
-    }
-
-    @keyframes gradient {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
-    }
-
-    /* Menü Üstte */
+    /* Menü */
     .menu-bar {
       width: 100%;
       display: flex;
       justify-content: center;
-      gap: 40px;
+      gap: 30px;
       padding: 20px;
-      background-color: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(10px);
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 10;
+      z-index: 2;
     }
 
     .menu-item {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       cursor: pointer;
-      padding: 10px 20px;
-      border-radius: 8px;
-      transition: all 0.4s ease;
+      padding: 10px 18px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
       color: #0ff;
       border: 1px solid transparent;
     }
 
     .menu-item:hover {
-      background-color: #0ff;
+      background: #0ff;
       color: #000;
-      border-color: #0ff;
       transform: scale(1.05);
     }
 
     /* İçerik */
     .container {
-      height: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding-top: 100px; /* Menüye yer bırak */
+      height: 100%;
+      padding-top: 80px;
       text-align: center;
+      z-index: 1;
+      position: relative;
+    }
+
+    .message-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #0ff;
+      padding: 30px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 400px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+
+    .message-box.active {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     h1 {
-      font-size: 3rem;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
       background: linear-gradient(to right, #0ff, #00f);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 20px;
     }
 
     p {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: #ccc;
     }
 
     @media (max-width: 600px) {
       .menu-bar {
         flex-wrap: wrap;
-        gap: 15px;
+        gap: 10px;
       }
 
       .menu-item {
@@ -220,7 +158,7 @@
       }
 
       h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
       }
 
       p {
@@ -231,31 +169,51 @@
 </head>
 <body>
 
-  <!-- Arka Plan -->
+  <!-- Arka plan geçiş efekti -->
   <div class="background"></div>
 
-  <!-- Üst Menü -->
+  <!-- Kar Efekti -->
+  <div class="snow" id="snow"></div>
+
+  <!-- Menü -->
   <div class="menu-bar">
-    <div class="menu-item" onclick="yakinda('FiveM')">FiveM</div>
-    <div class="menu-item" onclick="yakinda('CS2')">CS2</div>
-    <div class="menu-item" onclick="yakinda('Valorant')">Valorant</div>
-    <div class="menu-item" onclick="yakinda('Minecraft')">Minecraft</div>
+    <div class="menu-item" onclick="goster('FiveM')">FiveM</div>
+    <div class="menu-item" onclick="goster('CS2')">CS2</div>
+    <div class="menu-item" onclick="goster('Valorant')">Valorant</div>
+    <div class="menu-item" onclick="goster('Minecraft')">Minecraft</div>
   </div>
 
   <!-- İçerik -->
   <div class="container">
-    <div>
-      <h1>🎮 Oyun Sunucuları</h1>
-      <p>Girişler yakında aktif olacak. Bizi takipte kal!</p>
+    <div class="message-box" id="messageBox">
+      <h1>🎮 Hoş Geldin</h1>
+      <p>Lütfen yukarıdan bir oyun seç.</p>
     </div>
   </div>
 
   <script>
-    function yakinda(oyun) {
-      alert(oyun + " bölümü yakında aktif olacak!");
+    // Kar efektleri
+    const snowContainer = document.getElementById('snow');
+    for (let i = 0; i < 80; i++) {
+      let snowflake = document.createElement('div');
+      snowflake.classList.add('snowflake');
+      snowflake.style.left = Math.random() * 100 + 'vw';
+      snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+      snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+      snowflake.innerHTML = '❄';
+      snowContainer.appendChild(snowflake);
+    }
+
+    // Menü tıklama ve geçiş
+    function goster(oyun) {
+      const box = document.getElementById('messageBox');
+      box.classList.add('active');
+      box.innerHTML = `
+        <h1>${oyun}</h1>
+        <p>⏳ Yakında gelecek...</p>
+      `;
     }
   </script>
 
 </body>
 </html>
-
