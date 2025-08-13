@@ -3,137 +3,221 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Kategoriler - Kaliteli Tasarım</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+<title>Premium Kategori Sayfası</title>
 
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+  /* ------------------ Genel ------------------- */
   * {
     box-sizing: border-box;
   }
 
   body {
     margin: 0;
+    background: linear-gradient(135deg, #0a001c, #1a004d);
     font-family: 'Orbitron', sans-serif;
-    background: #000000;
     color: #d9aaff;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
   }
 
-  /* Üst kategori menüsü */
+  /* -------------------- LED ve arka plan animasyon -------------------- */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(138, 43, 226, 0.6), transparent 60%),
+      radial-gradient(circle at 80% 70%, rgba(186, 85, 211, 0.6), transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(147, 112, 219, 0.3), transparent 70%);
+    animation: ledPulse 10s ease-in-out infinite alternate;
+    z-index: -1;
+  }
+
+  @keyframes ledPulse {
+    0% {
+      filter: hue-rotate(0deg) brightness(0.8);
+    }
+    50% {
+      filter: hue-rotate(40deg) brightness(1.2);
+    }
+    100% {
+      filter: hue-rotate(0deg) brightness(0.8);
+    }
+  }
+
+  /* -------------------- Üst Menü (Kategori) -------------------- */
   nav {
     display: flex;
-    background: linear-gradient(90deg, #2a0055, #5c00aa);
-    padding: 15px 40px;
-    gap: 20px;
-    box-shadow: 0 0 15px #7e00ffaa;
+    justify-content: center;
+    background: rgba(40, 0, 80, 0.8);
+    box-shadow: 0 0 30px #a040ffaa;
+    padding: 20px 10px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(8px);
+    border-bottom: 2px solid #b562ff;
   }
 
   nav button {
     background: transparent;
     border: none;
+    margin: 0 18px;
     color: #d9aaff;
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1.4rem;
+    padding: 10px 18px;
+    border-radius: 14px;
     cursor: pointer;
-    padding: 8px 16px;
-    border-radius: 8px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative;
+    transition:
+      color 0.4s ease,
+      box-shadow 0.4s ease,
+      background-color 0.4s ease;
+  }
+
+  /* LED ışık efekti (parlaklık ve hafif hareket) */
+  nav button::before {
+    content: '';
+    position: absolute;
+    top: -6px; left: -6px; right: -6px; bottom: -6px;
+    border-radius: 18px;
+    background: linear-gradient(270deg, #b562ff, #8139ff, #c274ff, #a040ff, #d18cff);
+    background-size: 1000% 1000%;
+    animation: ledGlow 7s linear infinite;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+  }
+
+  nav button:hover::before,
+  nav button.active::before {
+    opacity: 1;
   }
 
   nav button:hover,
   nav button.active {
-    background: #a13aff;
     color: white;
-    box-shadow: 0 0 15px #ff7fff;
+    background-color: #7d3bff;
+    box-shadow: 0 0 20px #c683ffcc;
   }
 
-  /* İçerik bölümü */
+  @keyframes ledGlow {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* -------------------- İçerik Alanı -------------------- */
   main {
-    flex: 1;
+    flex-grow: 1;
     display: flex;
-    padding: 40px;
-    gap: 40px;
+    padding: 50px 60px;
+    gap: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #e7dfff;
   }
 
-  /* Soldaki kategori içeriği */
   section.description {
-    flex: 3;
-    background: #1a0a33;
-    border-radius: 20px;
-    padding: 30px 40px;
-    box-shadow: 0 0 30px #a136ffaa;
-    color: #e8d4ff;
-    font-size: 1.3rem;
-    line-height: 1.6;
+    flex: 4;
+    background: rgba(38, 0, 77, 0.85);
+    border-radius: 30px;
+    padding: 40px 60px;
+    font-size: 1.5rem;
+    line-height: 1.7;
+    box-shadow: 0 0 30px #a040ffbb;
     user-select: none;
+    opacity: 1;
+    transition: opacity 0.5s ease;
   }
 
-  /* Sağdaki açıklamalar veya ekstra kutu (isteğe bağlı) */
   section.sidebar {
-    flex: 1.5;
-    background: #2c136a;
-    border-radius: 20px;
-    padding: 20px 30px;
-    color: #d9aaffcc;
-    font-size: 1rem;
-    box-shadow: 0 0 20px #7a34ffbb;
+    flex: 2;
+    background: rgba(54, 0, 114, 0.7);
+    border-radius: 25px;
+    padding: 35px 30px;
+    box-shadow: 0 0 25px #bb7fffaa;
+    color: #cdbaffcc;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    text-align: center;
+    justify-content: space-between;
   }
 
-  /* Alt kısım */
-  footer {
-    background: #1f0048;
-    text-align: center;
-    padding: 20px;
-    font-size: 0.9rem;
-    color: #c5a7f7aa;
+  section.sidebar h3 {
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+    color: #bba0ff;
     user-select: none;
-    border-top: 1px solid #4d33a3;
   }
 
-  footer a {
-    color: #c5a7f7;
+  section.sidebar p {
+    font-size: 1rem;
+    line-height: 1.4;
+    user-select: none;
+  }
+
+  section.sidebar a {
+    color: #d6b7ff;
     text-decoration: none;
-    margin: 0 10px;
+    font-weight: 600;
     transition: color 0.3s ease;
   }
 
-  footer a:hover {
-    color: #ff87ff;
+  section.sidebar a:hover {
+    color: #f3c6ff;
   }
 
-  /* Animasyonlu opacity geçişi */
-  .fade-in {
-    animation: fadeInAnim 0.5s ease forwards;
+  footer {
+    text-align: center;
+    padding: 18px;
+    font-size: 0.85rem;
+    color: #9d81ccaa;
+    border-top: 1px solid #5027a8;
+    background: rgba(20, 0, 50, 0.6);
+    user-select: none;
   }
 
-  @keyframes fadeInAnim {
-    from {opacity: 0;}
-    to {opacity: 1;}
+  /* Responsive */
+  @media (max-width: 900px) {
+    main {
+      flex-direction: column;
+      padding: 30px 20px;
+      gap: 30px;
+    }
+
+    section.description, section.sidebar {
+      padding: 30px 25px;
+    }
   }
 
 </style>
 </head>
+
 <body>
 
 <nav id="kategoriNav">
-  <button class="active" data-desc="Fivem, Grand Theft Auto V modifikasyon ve hile paketleriyle sunucu deneyimini artırır. Yakında yeni sürümler gelecek!">FiveM</button>
-  <button data-desc="Valorant hileleri ve ESP sistemleri, rekabetçi maçlarda üstünlük sağlar. Yakında!">Valorant</button>
-  <button data-desc="CS2 için özel geliştirilmiş hile ve ESP araçları %100 VAC korumalı. Çok yakında!">CS2</button>
-  <button data-desc="AimBOT sistemleri, hedefleri otomatik ve hassas şekilde takip eder. Kaliteli ve güvenilir.">AimBOT</button>
-  <button data-desc="ESP (Extra Sensory Perception) ile rakipleri duvar arkasından görebilirsiniz.">ESP</button>
-  <button data-desc="100/100 VAC Koruma ile hilelerimiz tespit edilmez, tam güvenlik sağlar.">100/100 VAC KORUMA</button>
-  <button data-desc="Discord sunucumuzda destek ve topluluk bulabilirsiniz: https://discord.gg/hTFjRtwg">Discord</button>
+  <button class="active" data-desc="FiveM, GTA V için gelişmiş modifikasyon ve hile paketleri sunar. Yeni sürümler yakında geliyor!">FiveM</button>
+  <button data-desc="Valorant hileleri ve ESP, rekabetçi maçlarda üstünlük sağlar. Çok yakında!">Valorant</button>
+  <button data-desc="CS2 için özel hile ve ESP araçları, %100 VAC koruma ile.">CS2</button>
+  <button data-desc="AimBOT sistemleri, hedef takibi ve otomatik nişan alma sağlar.">AimBOT</button>
+  <button data-desc="ESP özelliği ile rakiplerinizi duvar arkasından görebilirsiniz.">ESP</button>
+  <button data-desc="100/100 VAC Korumalı hileler ile tespit edilmeden oynayın.">100/100 VAC KORUMA</button>
+  <button data-desc="Discord sunucumuzda destek ve topluluğumuzla buluşun: https://discord.gg/hTFjRtwg">Discord</button>
 </nav>
 
 <main>
-  <section class="description fade-in" id="kategoriDesc">
-    Fivem, Grand Theft Auto V modifikasyon ve hile paketleriyle sunucu deneyimini artırır. Yakında yeni sürümler gelecek!
+  <section class="description" id="kategoriDesc">
+    FiveM, GTA V için gelişmiş modifikasyon ve hile paketleri sunar. Yeni sürümler yakında geliyor!
   </section>
 
   <section class="sidebar">
@@ -147,24 +231,27 @@
   </section>
 </main>
 
+<footer>
+  Tasarım ve Kodlama &copy; 2025 - Premium Kalitede Hizmetinizde
+</footer>
+
 <script>
   const buttons = document.querySelectorAll('nav button');
   const desc = document.getElementById('kategoriDesc');
 
   buttons.forEach(button => {
     button.addEventListener('click', () => {
-      // Aktif sınıfı temizle
+      // Aktif sınıfı kaldır
       buttons.forEach(btn => btn.classList.remove('active'));
       button.classList.add('active');
 
-      // Opacity sıfırla animasyon için
+      // Fade out ve sonra metni değiştir
       desc.style.opacity = 0;
 
       setTimeout(() => {
-        // İçeriği değiştir
         desc.textContent = button.getAttribute('data-desc');
         desc.style.opacity = 1;
-      }, 300);
+      }, 350);
     });
   });
 </script>
