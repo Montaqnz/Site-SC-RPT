@@ -111,4 +111,151 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oyun Giriş Sayfası</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      background: #000;
+      font-family: 'Orbitron', sans-serif;
+      color: white;
+      overflow: hidden;
+    }
+
+    /* Arka Plan Geçiş Efekti */
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(-45deg, #0ff, #00f, #f0f, #0ff);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      opacity: 0.07;
+      z-index: -1;
+    }
+
+    @keyframes gradient {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    /* Menü Üstte */
+    .menu-bar {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+
+    .menu-item {
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: all 0.4s ease;
+      color: #0ff;
+      border: 1px solid transparent;
+    }
+
+    .menu-item:hover {
+      background-color: #0ff;
+      color: #000;
+      border-color: #0ff;
+      transform: scale(1.05);
+    }
+
+    /* İçerik */
+    .container {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 100px; /* Menüye yer bırak */
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 3rem;
+      background: linear-gradient(to right, #0ff, #00f);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #ccc;
+    }
+
+    @media (max-width: 600px) {
+      .menu-bar {
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .menu-item {
+        font-size: 1rem;
+        padding: 8px 14px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Arka Plan -->
+  <div class="background"></div>
+
+  <!-- Üst Menü -->
+  <div class="menu-bar">
+    <div class="menu-item" onclick="yakinda('FiveM')">FiveM</div>
+    <div class="menu-item" onclick="yakinda('CS2')">CS2</div>
+    <div class="menu-item" onclick="yakinda('Valorant')">Valorant</div>
+    <div class="menu-item" onclick="yakinda('Minecraft')">Minecraft</div>
+  </div>
+
+  <!-- İçerik -->
+  <div class="container">
+    <div>
+      <h1>🎮 Oyun Sunucuları</h1>
+      <p>Girişler yakında aktif olacak. Bizi takipte kal!</p>
+    </div>
+  </div>
+
+  <script>
+    function yakinda(oyun) {
+      alert(oyun + " bölümü yakında aktif olacak!");
+    }
+  </script>
+
+</body>
+</html>
 
