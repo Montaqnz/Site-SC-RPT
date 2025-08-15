@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const mainCategories = [
   { name: "Valorant Hilesi", slug: "valorant" },
@@ -23,7 +23,7 @@ export default function Home() {
   }, [activeMainCat]);
 
   const activeMainCategory = mainCategories.find(
-    (c) => c.slug === activeMainCat
+    (cat) => cat.slug === activeMainCat
   );
 
   return (
