@@ -19,7 +19,7 @@ export default function Home() {
   const [activeSubCat, setActiveSubCat] = useState(null);
 
   useEffect(() => {
-    setActiveSubCat(null); // Reset subcategory on main category change
+    setActiveSubCat(null);
   }, [activeMainCat]);
 
   return (
@@ -41,34 +41,7 @@ export default function Home() {
         a:hover {
           text-decoration: underline;
         }
-        /* Background animated stars */
-        #stars {
-          position: fixed;
-          width: 100%;
-          height: 100%;
-          background: transparent;
-          z-index: -1;
-          pointer-events: none;
-          animation: starAnim 60s linear infinite;
-        }
-        @keyframes starAnim {
-          from {
-            background-position: 0 0;
-          }
-          to {
-            background-position: -10000px 5000px;
-          }
-        }
       `}</style>
-
-      {/* Background stars */}
-      <div
-        id="stars"
-        style={{
-          background:
-            'url("https://www.transparenttextures.com/patterns/stardust.png") repeat',
-        }}
-      ></div>
 
       <header
         style={{
@@ -85,7 +58,6 @@ export default function Home() {
           boxShadow: "0 2px 10px rgba(0,0,0,0.7)",
         }}
       >
-        {/* Main categories */}
         <nav style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
           {mainCategories.map((cat) => (
             <button
@@ -112,7 +84,6 @@ export default function Home() {
           ))}
         </nav>
 
-        {/* Discord link */}
         <a
           href="https://discord.gg/8xen5Anrgs"
           target="_blank"
@@ -131,7 +102,6 @@ export default function Home() {
         </a>
       </header>
 
-      {/* Sub categories bar */}
       <div
         style={{
           display: "flex",
@@ -166,7 +136,6 @@ export default function Home() {
         ))}
       </div>
 
-      {/* Content area */}
       <main
         style={{
           padding: "3rem 2rem",
@@ -189,7 +158,6 @@ export default function Home() {
           Site sürekli güncel, güvenilir ve 2025 şartlarına uygun olarak hizmet vermektedir.
         </p>
 
-        {/* Ücretli / VIP kategori */}
         <section
           style={{
             background: "rgba(0,0,0,0.7)",
@@ -229,4 +197,3 @@ export default function Home() {
     </>
   );
 }
-
