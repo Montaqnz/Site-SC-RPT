@@ -3,140 +3,256 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Kategori Menüsü</title>
+<title>Kaliteli Hile Sitesi</title>
 <style>
-  /* Arka plan yıldız animasyonu */
-  body, html {
+  /* GENEL VE ARKA PLAN */
+  html, body {
     margin: 0; padding: 0; height: 100%;
-    background: #000814;
+    background: #0a0a0a;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #eee;
     overflow-x: hidden;
   }
-  .stars {
+
+  /* ARKA PLAN YILDIZLAR */
+  body::before {
+    content: "";
     position: fixed;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(white 1px, transparent 1px);
-    background-size: 15px 15px;
-    animation: moveStars 60s linear infinite;
+    width: 100%; height: 100%;
+    background:
+      radial-gradient(white 1px, transparent 2px),
+      radial-gradient(white 1px, transparent 2px);
+    background-position: 0 0, 50px 50px;
+    background-size: 100px 100px;
+    animation: starMove 60s linear infinite;
     z-index: -1;
   }
-  @keyframes moveStars {
-    from { background-position: 0 0; }
-    to { background-position: -1000px 1000px; }
+  @keyframes starMove {
+    from { background-position: 0 0, 50px 50px; }
+    to { background-position: -1000px 1000px, 950px 1050px; }
   }
 
-  /* Menüler */
-  nav {
+  /* DISCORD BANNER */
+  .discord-banner {
+    background: linear-gradient(90deg, #7289da, #5865f2);
+    color: #fff;
+    text-align: center;
+    padding: 0.75rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    box-shadow: 0 0 15px rgba(114, 137, 218, 0.8);
+    user-select: none;
+  }
+  .discord-banner a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .discord-banner a:hover {
+    color: #ffcc00;
+    text-shadow: 0 0 10px #ffcc00;
+  }
+
+  /* ANA KATEGORİ MENÜ */
+  nav#mainMenu {
     display: flex;
-    padding: 1rem;
-    gap: 1rem;
-    border-bottom: 1px solid #444;
-    background: rgba(0,0,0,0.6);
+    padding: 1rem 2rem;
+    gap: 1.5rem;
+    border-bottom: 1px solid #222;
+    background: rgba(10, 10, 10, 0.8);
     backdrop-filter: blur(6px);
   }
-  nav div {
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
+  nav#mainMenu div {
+    padding: 0.5rem 1.3rem;
+    border-radius: 12px;
     cursor: pointer;
     user-select: none;
     transition: all 0.3s ease;
-    color: #ccc;
+    color: #bbb;
+    font-weight: 600;
+    box-shadow: inset 0 0 0 0 #00bfff;
   }
-  nav div.active {
+  nav#mainMenu div.active {
     background: #00bfff;
     color: #fff;
-    font-weight: 700;
     box-shadow: 0 0 15px #00bfff;
+    font-weight: 700;
   }
-  nav div:hover:not(.active) {
+  nav#mainMenu div:hover:not(.active) {
     color: #00bfff;
     transform: scale(1.1);
     text-shadow: 0 0 10px #00bfff;
   }
 
+  /* ALT KATEGORİ MENÜ */
   .subcategories {
     display: flex;
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 2rem;
     gap: 1rem;
-    border-bottom: 1px solid #444;
-    background: rgba(0,0,0,0.6);
+    border-bottom: 1px solid #222;
+    background: rgba(10, 10, 10, 0.7);
     backdrop-filter: blur(6px);
   }
   .subcategories div {
-    padding: 0.3rem 0.8rem;
-    border-radius: 6px;
+    padding: 0.35rem 1rem;
+    border-radius: 10px;
     cursor: pointer;
     user-select: none;
-    color: #ccc;
+    color: #aaa;
     transition: background 0.3s, color 0.3s;
+    font-weight: 500;
   }
   .subcategories div.active {
-    background: rgba(0, 191, 255, 0.8);
+    background: rgba(0, 191, 255, 0.85);
     color: #fff;
-    font-weight: 600;
-    box-shadow: 0 0 10px #00bfff;
+    font-weight: 700;
+    box-shadow: 0 0 12px #00bfff;
   }
   .subcategories div:hover:not(.active) {
     background: rgba(0, 191, 255, 0.3);
     color: #00bfff;
   }
 
+  /* ANA İÇERİK ALANI */
   main {
-    max-width: 900px;
-    margin: 2rem auto;
-    padding: 1rem;
-    background: rgba(10,10,20,0.7);
-    border-radius: 15px;
-    box-shadow: 0 0 20px #00bfff;
-    backdrop-filter: blur(10px);
+    max-width: 960px;
+    margin: 2rem auto 4rem auto;
+    padding: 1.5rem 2rem;
+    background: rgba(15, 15, 25, 0.85);
+    border-radius: 18px;
+    box-shadow: 0 0 30px #00bfff;
+    backdrop-filter: blur(12px);
+    transition: all 0.5s ease;
   }
   main h1 {
-    font-size: 2rem;
+    font-size: 2.8rem;
     margin-bottom: 0.5rem;
+    color: #00bfff;
+    text-shadow: 0 0 15px #00bfff;
   }
   main p {
     line-height: 1.6;
+    font-size: 1.2rem;
+    color: #ddd;
   }
 
-  .vip {
-    margin-top: 2rem;
-    padding: 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    max-width: 400px;
-    background: rgba(255, 153, 0, 0.15);
-    border: 1px solid #ffa500;
-    color: #ffcc00;
-    font-weight: 600;
-    text-align: center;
-    user-select: none;
-    transition: background 0.3s ease;
-  }
-  .vip:hover {
-    background: rgba(255, 153, 0, 0.9);
-    color: #000;
-    box-shadow: 0 0 10px #ffcc00;
-  }
-
-  footer {
+  /* VIP BÖLÜMÜ */
+  section.vip {
     margin-top: 3rem;
-    font-size: 0.9rem;
-    opacity: 0.7;
+    padding: 1.4rem;
+    border-radius: 15px;
+    background: rgba(255, 153, 0, 0.2);
+    border: 2px solid #ffaa00;
+    color: #ffcc00;
+    font-weight: 700;
+    cursor: pointer;
     text-align: center;
-    letter-spacing: 1px;
+    box-shadow: 0 0 20px #ffaa00;
+    user-select: none;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  section.vip:hover {
+    background: rgba(255, 153, 0, 0.85);
+    color: #000;
+    box-shadow: 0 0 25px #ffcc00;
+  }
+
+  /* FİYATLANDIRMA LİSTESİ */
+  section.fiyat-listesi {
+    margin-top: 3rem;
+    padding: 1.5rem 2rem;
+    background: rgba(30, 30, 40, 0.85);
+    border-radius: 18px;
+    box-shadow: 0 0 25px #0077ff;
+    color: #99ccff;
+  }
+  section.fiyat-listesi h2 {
+    margin-top: 0; margin-bottom: 1rem;
+    color: #00bfff;
+    text-shadow: 0 0 15px #00bfff;
+  }
+  section.fiyat-listesi ul {
+    list-style: none;
+    padding: 0;
+    font-size: 1.15rem;
+  }
+  section.fiyat-listesi ul li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #222;
+  }
+
+  /* MÜŞTERİ MEMNUNİYETİ */
+  section.musteri-memnuniyeti {
+    margin-top: 3rem;
+    padding: 1.5rem 2rem;
+    background: rgba(0, 50, 80, 0.7);
+    border-radius: 18px;
+    box-shadow: 0 0 15px #00ffff;
+    color: #aaffff;
+  }
+  section.musteri-memnuniyeti h2 {
+    margin-top: 0; margin-bottom: 1rem;
+    color: #00ffff;
+    text-shadow: 0 0 15px #00ffff;
+  }
+  section.musteri-memnuniyeti p {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  /* ALT BİLGİ */
+  footer {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    color: #777;
+    font-size: 0.9rem;
+    letter-spacing: 1.2px;
+    user-select: none;
+  }
+
+  /* GEÇİŞLER */
+  nav div, .subcategories div, section.vip, main, section.fiyat-listesi, section.musteri-memnuniyeti {
+    transition: all 0.3s ease;
+  }
+
+  /* Responsive */
+  @media (max-width: 720px) {
+    nav#mainMenu, .subcategories {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    nav#mainMenu div, .subcategories div {
+      flex-grow: 1;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    main {
+      margin: 1rem 1rem 3rem 1rem;
+      padding: 1rem;
+    }
   }
 </style>
 </head>
 <body>
 
-<div class="stars"></div>
+<!-- DISCORD REKLAM -->
+<div class="discord-banner">
+  <a href="https://discord.gg/8xen5Anrgs" target="_blank" rel="noopener noreferrer" aria-label="Discord Sunucumuza Katıl">
+    🚀 Discord Sunucumuza Katıl! Tıkla, otomatik giriş yap! 🔗
+  </a>
+</div>
 
-<nav id="mainMenu"></nav>
-<div class="subcategories" id="subMenu"></div>
+<!-- ANA KATEGORİ MENÜ -->
+<nav id="mainMenu" aria-label="Ana Kategori Menüsü"></nav>
 
-<main>
+<!-- ALT KATEGORİ MENÜ -->
+<div class="subcategories" id="subMenu" aria-label="Alt Kategori Menüsü"></div>
+
+<!-- İÇERİK -->
+<main role="main" aria-live="polite">
   <h1 id="contentTitle">Valorant Hilesi</h1>
   <p id="contentText">
     Burada <strong>Valorant Hilesi</strong> kategorisine ait kaliteli içerikler yer alacak. Site sürekli güncel, güvenilir ve 2025 şartlarına uygun olarak hizmet vermektedir.
@@ -147,22 +263,42 @@
     <p>Özel ve güncel içerikler için tıklayın!</p>
   </section>
 
-  <footer>Site Güvenilir | 2025 Şartları Onaylı Site</footer>
+  <section class="fiyat-listesi" aria-label="Fiyatlandırma Listesi">
+    <h2>Fiyatlandırma Listesi (Yakında)</h2>
+    <ul>
+      <li>Valorant Hilesi: Ücretsiz</li>
+      <li>CS2 Hilesi: Ücretsiz</li>
+      <li>Fivem Hilesi: Ücretsiz</li>
+      <li>VIP Hileler: Ücretli ve özel erişim</li>
+    </ul>
+  </section>
+
+  <section class="musteri-memnuniyeti" aria-label="Müşteri Memnuniyeti">
+    <h2>Müşteri Memnuniyeti</h2>
+    <p>100/100 Müşteri memnuniyeti garantisi ile kaliteli ve güvenilir hizmet.</p>
+  </section>
 </main>
 
+<footer>
+  Site Güvenilir | 2025 Şartları Onaylı Site
+</footer>
+
 <script>
+  // Ana ve alt kategoriler
   const mainCategories = [
     { name: "Valorant Hilesi", slug: "valorant" },
     { name: "CS2 HİLESİ", slug: "cs2" },
     { name: "YAKINDA", slug: "comingsoon" },
-    { name: "Fivem Hilesi", slug: "fivem" }
+    { name: "Fivem Hilesi", slug: "fivem" },
+    { name: "VIP Hile", slug: "vip" }
   ];
 
   const subCategories = {
     valorant: ["Skin Changer", "Aimbot", "Wallhack", "Silent Aim"],
-    cs2: [],
+    cs2: ["Aimbot", "Wallhack", "Silent Aim"],
     comingsoon: [],
-    fivem: []
+    fivem: ["Script Hile", "Sunucu Destek"],
+    vip: ["Ücretli Aimbot", "Ücretli Wallhack", "Özel Destek"]
   };
 
   let activeMainCat = "valorant";
@@ -174,55 +310,77 @@
   const contentText = document.getElementById("contentText");
   const vipSection = document.getElementById("vipSection");
 
+  // Menüleri oluştur
   function renderMainMenu() {
     mainMenu.innerHTML = "";
     mainCategories.forEach(cat => {
       const div = document.createElement("div");
       div.textContent = cat.name;
-      div.className = cat.slug === activeMainCat ? "active" : "";
-      div.onclick = () => {
-        activeMainCat = cat.slug;
-        activeSubCat = null;
-        renderMainMenu();
-        renderSubMenu();
-        updateContent();
-      };
+      div.dataset.slug = cat.slug;
+      if(cat.slug === activeMainCat) div.classList.add("active");
+      div.addEventListener("click", () => {
+        if (activeMainCat !== cat.slug) {
+          activeMainCat = cat.slug;
+          activeSubCat = null;
+          updateContent();
+          renderMainMenu();
+          renderSubMenu();
+        }
+      });
       mainMenu.appendChild(div);
     });
   }
 
   function renderSubMenu() {
     subMenu.innerHTML = "";
-    const subs = subCategories[activeMainCat] || [];
-    subs.forEach(sub => {
+    if (!subCategories[activeMainCat] || subCategories[activeMainCat].length === 0) {
+      subMenu.style.display = "none";
+      return;
+    }
+    subMenu.style.display = "flex";
+    subCategories[activeMainCat].forEach(sub => {
       const div = document.createElement("div");
       div.textContent = sub;
-      div.className = sub === activeSubCat ? "active" : "";
-      div.onclick = () => {
-        activeSubCat = sub === activeSubCat ? null : sub;
-        renderSubMenu();
+      div.dataset.name = sub;
+      if(sub === activeSubCat) div.classList.add("active");
+      div.addEventListener("click", () => {
+        activeSubCat = sub;
         updateContent();
-      };
+        renderSubMenu();
+      });
       subMenu.appendChild(div);
     });
   }
 
   function updateContent() {
-    const mainCatName = mainCategories.find(c => c.slug === activeMainCat)?.name || "";
-    if (activeSubCat) {
-      contentTitle.textContent = activeSubCat;
-      contentText.innerHTML = `Burada <strong>${activeSubCat}</strong> kategorisine ait kaliteli içerikler yer alacak. Site sürekli güncel, güvenilir ve 2025 şartlarına uygun olarak hizmet vermektedir.`;
+    let title = activeMainCat === "comingsoon" ? "Yakında" : activeMainCat.charAt(0).toUpperCase() + activeMainCat.slice(1) + " Hilesi";
+    if(activeSubCat) title += " - " + activeSubCat;
+
+    contentTitle.textContent = title;
+
+    let text = "";
+    if(activeMainCat === "valorant") {
+      text = "Burada " + (activeSubCat ? activeSubCat : "Valorant") + " hileleri bulunur. Site güvenilir ve 2025 şartlarına uygundur.";
+    } else if(activeMainCat === "cs2") {
+      text = "CS2 hileleri " + (activeSubCat ? activeSubCat : "") + " kategorisinde sunulmaktadır.";
+    } else if(activeMainCat === "comingsoon") {
+      text = "Bu kategori yakında aktif olacaktır, takipte kalın.";
+    } else if(activeMainCat === "fivem") {
+      text = "Fivem hileleri " + (activeSubCat ? activeSubCat : "") + " kategorisinde yer almaktadır.";
+    } else if(activeMainCat === "vip") {
+      text = "Ücretli VIP hileler ve özel destek burada listelenir.";
     } else {
-      contentTitle.textContent = mainCatName;
-      contentText.innerHTML = `Burada <strong>${mainCatName}</strong> kategorisine ait kaliteli içerikler yer alacak. Site sürekli güncel, güvenilir ve 2025 şartlarına uygun olarak hizmet vermektedir.`;
+      text = "Kategoriye ait bilgiler burada gösterilecektir.";
     }
+    contentText.innerHTML = text;
   }
 
-  vipSection.onclick = () => {
-    alert("VIP ve Ücretli hile kategorisi yakında aktif olacak!");
-  };
+  // VIP bölüme tıklayınca alert göster (ya da özel sayfaya yönlendirebilirsin)
+  vipSection.addEventListener("click", () => {
+    alert("VIP hile kategorisi yakında aktif olacaktır!");
+  });
 
-  // Başlangıç render
+  // İlk render
   renderMainMenu();
   renderSubMenu();
   updateContent();
@@ -230,9 +388,3 @@
 
 </body>
 </html>
-<div class="discord-banner">
-  <a href="https://discord.gg/8xen5Anrgs" target="_blank">
-    🚀 Discord Sunucumuza Katıl! Tıkla, otomatik giriş yap! 🔗
-  </a>
-</div>
-
