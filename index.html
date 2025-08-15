@@ -27,36 +27,107 @@ export default function Home() {
   );
 
   return (
-    <div
-      style={{
-        background:
-          "radial-gradient(circle, rgba(10,10,20,1) 0%, rgba(20,20,40,1) 70%)",
-        minHeight: "100vh",
-        color: "white",
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      }}
-    >
-      {/* Üst Menü */}
-      <nav
-        style={{
-          display: "flex",
-          padding: "1rem",
-          gap: "1rem",
-          borderBottom: "1px solid #444",
-          alignItems: "center",
-        }}
-      >
+    <>
+      {/* Arka Plan Yıldız Efekti */}
+      <style>{`
+        body, html, #root {
+          margin: 0; padding: 0; height: 100%;
+          background: #000814;
+          overflow-x: hidden;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          color: #eee;
+        }
+        .stars {
+          position: fixed;
+          width: 100%;
+          height: 100%;
+          background: radial-gradient(white 1px, transparent 1px);
+          background-size: 15px 15px;
+          animation: moveStars 60s linear infinite;
+          z-index: -1;
+        }
+        @keyframes moveStars {
+          from { background-position: 0 0; }
+          to { background-position: -1000px 1000px; }
+        }
+        nav, .subcategories {
+          background: rgba(0, 0, 0, 0.6);
+          backdrop-filter: blur(6px);
+          box-shadow: 0 0 10px rgba(0, 191, 255, 0.3);
+        }
+        nav div, .subcategories div {
+          transition: all 0.3s ease;
+          user-select: none;
+        }
+        nav div:hover, .subcategories div:hover {
+          color: #00bfff;
+          cursor: pointer;
+          transform: scale(1.1);
+          text-shadow: 0 0 10px #00bfff;
+        }
+        a.discord-link {
+          margin-left: auto;
+          color: #7289da;
+          text-decoration: none;
+          font-weight: 600;
+          transition: color 0.3s;
+        }
+        a.discord-link:hover {
+          color: #00bfff;
+          text-shadow: 0 0 15px #00bfff;
+        }
+        main {
+          max-width: 900px;
+          margin: 2rem auto;
+          padding: 1rem;
+          background: rgba(10,10,20,0.7);
+          border-radius: 15px;
+          box-shadow: 0 0 20px #00bfff;
+          backdrop-filter: blur(10px);
+        }
+        section.vip {
+          margin-top: 2rem;
+          padding: 1rem;
+          border-radius: 8px;
+          cursor: pointer;
+          max-width: 400px;
+          background: rgba(255, 153, 0, 0.15);
+          border: 1px solid #ffa500;
+          color: #ffcc00;
+          font-weight: 600;
+          text-align: center;
+          user-select: none;
+          transition: background 0.3s ease;
+        }
+        section.vip:hover {
+          background: rgba(255, 153, 0, 0.9);
+          color: #000;
+          box-shadow: 0 0 10px #ffcc00;
+        }
+        footer {
+          margin-top: 3rem;
+          font-size: 0.9rem;
+          opacity: 0.7;
+          text-align: center;
+          letter-spacing: 1px;
+        }
+      `}</style>
+
+      <div className="stars"></div>
+
+      <nav style={{ display: "flex", padding: "1rem", gap: "1rem", borderBottom: "1px solid #444", alignItems: "center" }}>
         {mainCategories.map((cat) => (
           <div
             key={cat.slug}
             onClick={() => setActiveMainCat(cat.slug)}
             style={{
-              cursor: "pointer",
               padding: "0.5rem 1rem",
               borderRadius: "8px",
               background: activeMainCat === cat.slug ? "#00bfff" : "transparent",
-              transition: "background 0.3s",
               fontWeight: activeMainCat === cat.slug ? "700" : "400",
+              color: activeMainCat === cat.slug ? "#fff" : "#ccc",
+              boxShadow: activeMainCat === cat.slug ? "0 0 15px #00bfff" : "none",
+              userSelect: "none",
             }}
           >
             {cat.name}
@@ -67,24 +138,20 @@ export default function Home() {
           href="https://discord.gg/8xen5Anrgs"
           target="_blank"
           rel="noopener noreferrer"
-          style={{
-            marginLeft: "auto",
-            color: "#7289da",
-            textDecoration: "none",
-            fontWeight: "600",
-          }}
+          className="discord-link"
         >
           Discord Sunucumuz
         </a>
       </nav>
 
-      {/* Alt Kategoriler */}
       <div
+        className="subcategories"
         style={{
           display: "flex",
           padding: "0.5rem 1rem",
           gap: "1rem",
           borderBottom: "1px solid #444",
+          userSelect: "none",
         }}
       >
         {(subCategories[activeMainCat] || []).map((sub) => (
@@ -92,13 +159,13 @@ export default function Home() {
             key={sub}
             onClick={() => setActiveSubCat(sub)}
             style={{
-              cursor: "pointer",
               padding: "0.3rem 0.8rem",
               borderRadius: "6px",
               background: activeSubCat === sub ? "rgba(0, 191, 255, 0.8)" : "transparent",
               color: activeSubCat === sub ? "#fff" : "#ccc",
-              transition: "background 0.3s",
               fontWeight: activeSubCat === sub ? "600" : "400",
+              boxShadow: activeSubCat === sub ? "0 0 10px #00bfff" : "none",
+              transition: "background 0.3s",
             }}
           >
             {sub}
@@ -106,8 +173,7 @@ export default function Home() {
         ))}
       </div>
 
-      {/* İçerik Alanı */}
-      <main style={{ padding: "1rem", maxWidth: "900px", margin: "auto" }}>
+      <main>
         <h1 style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>
           {activeSubCat ? activeSubCat : activeMainCategory?.name}
         </h1>
@@ -120,45 +186,21 @@ export default function Home() {
           güvenilir ve 2025 şartlarına uygun olarak hizmet vermektedir.
         </p>
 
-        {/* Ücretli / VIP Kategori */}
         <section
-          onMouseEnter={(e) =>
-            (e.currentTarget.style.background = "rgba(255,153,0,0.9)")
-          }
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.background = "transparent")
-          }
-          style={{
-            marginTop: "2rem",
-            padding: "1rem",
-            borderRadius: "8px",
-            cursor: "pointer",
-            maxWidth: "400px",
-            background: "transparent",
-            color: "white",
-            border: "1px solid #ffa500",
-            transition: "background 0.3s",
-          }}
+          className="vip"
           aria-label="Ücretli ve VIP hile kategorisi"
           onClick={() =>
             alert("VIP ve Ücretli hile kategorisi yakında aktif olacak!")
           }
         >
           <h2>Ücretli / VIP Hile Kategorisi</h2>
-          <p style={{ color: "#ffcc00" }}>Özel ve güncel içerikler için tıklayın!</p>
+          <p>Özel ve güncel içerikler için tıklayın!</p>
         </section>
 
-        <footer
-          style={{
-            marginTop: "3rem",
-            fontSize: "0.9rem",
-            opacity: 0.7,
-            textAlign: "center",
-          }}
-        >
+        <footer>
           Site Güvenilir | 2025 Şartları Onaylı Site
         </footer>
       </main>
-    </div>
+    </>
   );
 }
