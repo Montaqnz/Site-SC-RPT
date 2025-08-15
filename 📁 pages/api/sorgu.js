@@ -22,178 +22,143 @@ export default function Home() {
     setActiveSubCat(null);
   }, [activeMainCat]);
 
-  return (
-    <>
-      <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
-        body {
-          margin: 0;
-          font-family: 'Poppins', sans-serif;
-          background: radial-gradient(circle at center, #0b0c10, #1f2833);
-          color: white;
-          overflow-x: hidden;
-        }
-        a {
-          color: #00bfff;
-          text-decoration: none;
-          cursor: pointer;
-        }
-        a:hover {
-          text-decoration: underline;
-        }
-      `}</style>
+  const activeMainCategory = mainCategories.find(
+    (c) => c.slug === activeMainCat
+  );
 
-      <header
+  return (
+    <div
+      style={{
+        background:
+          "radial-gradient(circle, rgba(10,10,20,1) 0%, rgba(20,20,40,1) 70%)",
+        minHeight: "100vh",
+        color: "white",
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      }}
+    >
+      {/* Üst Menü */}
+      <nav
         style={{
           display: "flex",
-          justifyContent: "space-between",
+          padding: "1rem",
+          gap: "1rem",
+          borderBottom: "1px solid #444",
           alignItems: "center",
-          padding: "1rem 2rem",
-          background:
-            "linear-gradient(90deg, rgba(0,0,0,0.85), rgba(0,0,0,0.6))",
-          position: "sticky",
-          top: 0,
-          zIndex: 1000,
-          backdropFilter: "blur(8px)",
-          boxShadow: "0 2px 10px rgba(0,0,0,0.7)",
         }}
       >
-        <nav style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-          {mainCategories.map((cat) => (
-            <button
-              key={cat.slug}
-              onClick={() => setActiveMainCat(cat.slug)}
-              style={{
-                background:
-                  activeMainCat === cat.slug ? "#00bfff" : "transparent",
-                border: "none",
-                padding: "0.6rem 1.2rem",
-                borderRadius: "8px",
-                color: activeMainCat === cat.slug ? "#000" : "#fff",
-                fontWeight: "600",
-                cursor: "pointer",
-                transition: "background 0.3s ease, color 0.3s ease",
-                boxShadow:
-                  activeMainCat === cat.slug
-                    ? "0 0 10px #00bfff"
-                    : "none",
-              }}
-            >
-              {cat.name}
-            </button>
-          ))}
-        </nav>
+        {mainCategories.map((cat) => (
+          <div
+            key={cat.slug}
+            onClick={() => setActiveMainCat(cat.slug)}
+            style={{
+              cursor: "pointer",
+              padding: "0.5rem 1rem",
+              borderRadius: "8px",
+              background: activeMainCat === cat.slug ? "#00bfff" : "transparent",
+              transition: "background 0.3s",
+              fontWeight: activeMainCat === cat.slug ? "700" : "400",
+            }}
+          >
+            {cat.name}
+          </div>
+        ))}
 
         <a
           href="https://discord.gg/8xen5Anrgs"
           target="_blank"
           rel="noopener noreferrer"
           style={{
-            fontWeight: "700",
-            background: "#7289da",
-            padding: "0.5rem 1rem",
-            borderRadius: "8px",
-            boxShadow: "0 0 12px #7289da",
-            transition: "all 0.3s ease",
-            userSelect: "none",
+            marginLeft: "auto",
+            color: "#7289da",
+            textDecoration: "none",
+            fontWeight: "600",
           }}
         >
           Discord Sunucumuz
         </a>
-      </header>
+      </nav>
 
+      {/* Alt Kategoriler */}
       <div
         style={{
           display: "flex",
+          padding: "0.5rem 1rem",
           gap: "1rem",
-          padding: "1rem 2rem",
-          background:
-            "linear-gradient(90deg, rgba(0,0,0,0.7), rgba(0,0,0,0.5))",
-          borderBottom: "1px solid #222",
-          flexWrap: "wrap",
+          borderBottom: "1px solid #444",
         }}
       >
         {(subCategories[activeMainCat] || []).map((sub) => (
-          <button
+          <div
             key={sub}
             onClick={() => setActiveSubCat(sub)}
             style={{
-              background:
-                activeSubCat === sub ? "#00bfff" : "rgba(255,255,255,0.1)",
-              border: "none",
-              padding: "0.5rem 1rem",
-              borderRadius: "6px",
-              color: activeSubCat === sub ? "#000" : "#fff",
-              fontWeight: "600",
               cursor: "pointer",
-              boxShadow:
-                activeSubCat === sub ? "0 0 8px #00bfff" : "none",
-              transition: "all 0.3s ease",
+              padding: "0.3rem 0.8rem",
+              borderRadius: "6px",
+              background: activeSubCat === sub ? "rgba(0, 191, 255, 0.8)" : "transparent",
+              color: activeSubCat === sub ? "#fff" : "#ccc",
+              transition: "background 0.3s",
+              fontWeight: activeSubCat === sub ? "600" : "400",
             }}
           >
             {sub}
-          </button>
+          </div>
         ))}
       </div>
 
-      <main
-        style={{
-          padding: "3rem 2rem",
-          minHeight: "60vh",
-          maxWidth: "1200px",
-          margin: "auto",
-          background: "rgba(0,0,0,0.65)",
-          borderRadius: "16px",
-          boxShadow: "0 0 30px #00bfff88",
-          backdropFilter: "blur(10px)",
-          color: "white",
-          transition: "all 0.5s ease",
-        }}
-      >
-        <h1 style={{ fontWeight: "700", fontSize: "2.5rem", marginBottom: "1rem" }}>
-          {activeSubCat ? activeSubCat : mainCategories.find(c => c.slug === activeMainCat).name}
+      {/* İçerik Alanı */}
+      <main style={{ padding: "1rem", maxWidth: "900px", margin: "auto" }}>
+        <h1 style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>
+          {activeSubCat ? activeSubCat : activeMainCategory?.name}
         </h1>
-        <p style={{ fontSize: "1.1rem", lineHeight: "1.6", marginBottom: "2rem" }}>
-          Burada <strong>{activeSubCat ? activeSubCat : mainCategories.find(c => c.slug === activeMainCat).name}</strong> kategorisine ait kaliteli içerikler yer alacak.
-          Site sürekli güncel, güvenilir ve 2025 şartlarına uygun olarak hizmet vermektedir.
+        <p style={{ lineHeight: "1.6" }}>
+          Burada{" "}
+          <strong>
+            {activeSubCat ? activeSubCat : activeMainCategory?.name}
+          </strong>{" "}
+          kategorisine ait kaliteli içerikler yer alacak. Site sürekli güncel,
+          güvenilir ve 2025 şartlarına uygun olarak hizmet vermektedir.
         </p>
 
+        {/* Ücretli / VIP Kategori */}
         <section
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.background = "rgba(255,153,0,0.9)")
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.background = "transparent")
+          }
           style={{
-            background: "rgba(0,0,0,0.7)",
-            padding: "1.5rem",
-            borderRadius: "12px",
-            boxShadow: "0 0 15px #ff9900aa",
-            maxWidth: "400px",
-            margin: "auto",
-            textAlign: "center",
+            marginTop: "2rem",
+            padding: "1rem",
+            borderRadius: "8px",
             cursor: "pointer",
-            userSelect: "none",
-            transition: "background 0.3s ease",
+            maxWidth: "400px",
+            background: "transparent",
+            color: "white",
+            border: "1px solid #ffa500",
+            transition: "background 0.3s",
           }}
-          onClick={() => alert("VIP ve Ücretli hile kategorisi yakında aktif olacak!")}
-          onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,153,0,0.9)")}
-          onMouseLeave={e => (e.currentTarget.style.background = "rgba(0,0,0,0.7)")}
           aria-label="Ücretli ve VIP hile kategorisi"
+          onClick={() =>
+            alert("VIP ve Ücretli hile kategorisi yakında aktif olacak!")
+          }
         >
-          <h2 style={{ margin: "0 0 0.5rem 0" }}>Ücretli / VIP Hile Kategorisi</h2>
-          <p>Özel ve güncel içerikler için tıklayın!</p>
+          <h2>Ücretli / VIP Hile Kategorisi</h2>
+          <p style={{ color: "#ffcc00" }}>Özel ve güncel içerikler için tıklayın!</p>
         </section>
-      </main>
 
-      <footer
-        style={{
-          textAlign: "center",
-          padding: "1rem",
-          color: "#bbb",
-          fontSize: "0.9rem",
-          borderTop: "1px solid rgba(255,255,255,0.1)",
-          marginTop: "3rem",
-          userSelect: "none",
-        }}
-      >
-        <p>Site Güvenilir &nbsp;|&nbsp; 2025 Şartları Onaylı Site</p>
-      </footer>
-    </>
+        <footer
+          style={{
+            marginTop: "3rem",
+            fontSize: "0.9rem",
+            opacity: 0.7,
+            textAlign: "center",
+          }}
+        >
+          Site Güvenilir | 2025 Şartları Onaylı Site
+        </footer>
+      </main>
+    </div>
   );
 }
